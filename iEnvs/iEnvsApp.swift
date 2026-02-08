@@ -12,6 +12,20 @@ struct iEnvsApp: App {
                 .frame(minWidth: 800, minHeight: 500)
                 .onAppear {
                     appDelegate.setupStatusBar(viewModel: viewModel)
+                    // Capture and configure main window
+                    DispatchQueue.main.async {
+                        if appDelegate.mainWindow == nil {
+                            if let window = NSApp.windows.first(where: { window in
+                                window.level == .normal &&
+                                window.canBecomeMain &&
+                                window.title != "Settings" &&
+                                window.title != "偏好设置"
+                            }) {
+                                appDelegate.mainWindow = window
+                                window.delegate = appDelegate
+                            }
+                        }
+                    }
                 }
         }
         .defaultSize(width: 1000, height: 650)
@@ -23,40 +37,38 @@ struct iEnvsApp: App {
 }
 
 @MainActor
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var statusBarManager: StatusBarManager?
+    var mainWindow: NSWindow?
 
     func setupStatusBar(viewModel: EnvGroupViewModel) {
         guard statusBarManager == nil else { return }
-        statusBarManager = StatusBarManager(viewModel: viewModel)
-
-        // Observe window close to hide dock icon
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(windowDidClose),
-            name: NSWindow.willCloseNotification,
-            object: nil
-        )
+        statusBarManager = StatusBarManager(viewModel: viewModel, appDelegate: self)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return false
     }
 
-    @objc func windowDidClose(_ notification: Notification) {
-        // Delay check to let window fully close
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let visibleWindows = NSApp.windows.filter {
-                $0.isVisible && $0.level == .normal && $0.canBecomeMain
-            }
-            if visibleWindows.isEmpty {
+    // Intercept window close: hide instead of destroy
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        if sender === mainWindow {
+            sender.orderOut(nil)
+            // Hide dock icon
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 NSApp.setActivationPolicy(.accessory)
             }
+            return false // Prevent actual close
         }
+        return true
     }
 
-    @objc func newMainWindow() {
-        // Trigger SwiftUI WindowGroup to open a new window
-        NSApp.sendAction(Selector(("newWindowForTab:")), to: nil, from: nil)
+    func showMainWindow() {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+
+        if let window = mainWindow {
+            window.makeKeyAndOrderFront(nil)
+        }
     }
 }

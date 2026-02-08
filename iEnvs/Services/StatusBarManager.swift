@@ -7,9 +7,11 @@ final class StatusBarManager: NSObject {
     private var statusItem: NSStatusItem?
     private let viewModel: EnvGroupViewModel
     private var cancellables = Set<AnyCancellable>()
+    private weak var appDelegate: AppDelegate?
 
-    init(viewModel: EnvGroupViewModel) {
+    init(viewModel: EnvGroupViewModel, appDelegate: AppDelegate) {
         self.viewModel = viewModel
+        self.appDelegate = appDelegate
         super.init()
         setupStatusBar()
         observeChanges()
@@ -148,25 +150,7 @@ final class StatusBarManager: NSObject {
     }
 
     @objc private func openMainWindow() {
-        // Show dock icon when opening window
-        NSApp.setActivationPolicy(.regular)
-        NSApp.activate(ignoringOtherApps: true)
-
-        // Find existing main window (not Settings, not status bar)
-        let mainWindow = NSApp.windows.first { window in
-            window.level == .normal &&
-            window.canBecomeMain &&
-            !window.title.isEmpty &&
-            window.title != "Settings" &&
-            window.title != "偏好设置"
-        }
-
-        if let window = mainWindow {
-            window.makeKeyAndOrderFront(nil)
-        } else {
-            // No window exists - trigger SwiftUI to create a new WindowGroup window
-            NSApp.sendAction(#selector(AppDelegate.newMainWindow), to: nil, from: nil)
-        }
+        appDelegate?.showMainWindow()
     }
 
     @objc private func openSettings() {
