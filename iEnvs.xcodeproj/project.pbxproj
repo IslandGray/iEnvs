@@ -34,6 +34,7 @@
 		A3E4F6F8781AD0259988211E /* ShellSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C074E46552FBD3B194E8BA9 /* ShellSettingsView.swift */; };
 		A67A79C07D019C3329FC3558 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BF28A253603AA1C004A5F0 /* DetailView.swift */; };
 		AEB9739AC32643AFCB97025C /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFB61EEE39236628580AD4 /* SidebarView.swift */; };
+		C5B689C77751FBF020665655 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4775C509D384E6E29E4096CB /* StatusBarManager.swift */; };
 		CFB3A5C3BA5F40D25ACFC188 /* EnvGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */; };
 		DD43C62F04476F1CCB50A8E3 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50649602EB0F137BFBA68321 /* ImportExportManager.swift */; };
 		ECF5CCAEA64247E12C1571ED /* EnvGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006D4C0ABCA293A289013E4 /* EnvGroupViewModel.swift */; };
@@ -51,6 +52,7 @@
 		3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSettingsView.swift; sourceTree = "<group>"; };
 		3C4561ADF188A3D867686E42 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		4285C6568734894F42862ED8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4775C509D384E6E29E4096CB /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
 		50649602EB0F137BFBA68321 /* ImportExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		5069B51493B449D885B24BEA /* AddVariableSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVariableSheet.swift; sourceTree = "<group>"; };
 		50A7C25C5301C64606846089 /* ConflictDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictDetector.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				3C4561ADF188A3D867686E42 /* DataStore.swift */,
 				50649602EB0F137BFBA68321 /* ImportExportManager.swift */,
 				7F051C569839373EAF1A1D46 /* ShellConfigManager.swift */,
+				4775C509D384E6E29E4096CB /* StatusBarManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				A3E4F6F8781AD0259988211E /* ShellSettingsView.swift in Sources */,
 				9CB16D9DE787D73696DC2B14 /* ShellType.swift in Sources */,
 				AEB9739AC32643AFCB97025C /* SidebarView.swift in Sources */,
+				C5B689C77751FBF020665655 /* StatusBarManager.swift in Sources */,
 				56FCE5601ADBBD4C798E0F8A /* Validators.swift in Sources */,
 				8971AC247CE5F28130F253CE /* VariableRowView.swift in Sources */,
 				9C9BB90014FAEC161FFC069E /* iEnvsApp.swift in Sources */,
