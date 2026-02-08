@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 
 struct AppSettings: Codable, Equatable {
     var shellType: ShellType
@@ -43,6 +44,14 @@ enum ThemeMode: String, Codable, CaseIterable, Identifiable {
         case .auto: return "自动"
         case .light: return "浅色"
         case .dark: return "深色"
+        }
+    }
+
+    var nsAppearance: NSAppearance? {
+        switch self {
+        case .auto: return nil
+        case .light: return NSAppearance(named: .aqua)
+        case .dark: return NSAppearance(named: .darkAqua)
         }
     }
 }

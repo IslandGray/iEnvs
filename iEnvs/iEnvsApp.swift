@@ -11,6 +11,10 @@ struct iEnvsApp: App {
                 .environmentObject(viewModel)
                 .frame(minWidth: 800, minHeight: 500)
                 .onAppear {
+                    // 应用已保存的主题设置
+                    let settings = DataStore.shared.load().settings
+                    NSApp.appearance = settings.theme.nsAppearance
+
                     appDelegate.setupStatusBar(viewModel: viewModel)
                     // Capture and configure main window
                     DispatchQueue.main.async {

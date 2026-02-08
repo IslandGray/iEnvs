@@ -34,6 +34,9 @@ struct SettingsView: View {
         .onChange(of: settingsVM.settings) { _ in
             settingsVM.saveSettings()
         }
+        .onChange(of: settingsVM.settings.theme) { newTheme in
+            NSApp.appearance = newTheme.nsAppearance
+        }
     }
 }
 
