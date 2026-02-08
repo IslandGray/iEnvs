@@ -2,6 +2,10 @@ import AppKit
 import SwiftUI
 import Combine
 
+extension Notification.Name {
+    static let openSettings = Notification.Name("iEnvs.openSettings")
+}
+
 @MainActor
 final class StatusBarManager: NSObject {
     private var statusItem: NSStatusItem?
@@ -154,13 +158,9 @@ final class StatusBarManager: NSObject {
     }
 
     @objc private func openSettings() {
+        NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
-        // Use the standard macOS settings action
-        if #available(macOS 14.0, *) {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        } else {
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        }
+        NotificationCenter.default.post(name: .openSettings, object: nil)
     }
 
     @objc private func quitApp() {

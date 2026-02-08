@@ -40,10 +40,21 @@ struct iEnvsApp: App {
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var statusBarManager: StatusBarManager?
     var mainWindow: NSWindow?
+    private var settingsWindow: NSWindow?
 
     func setupStatusBar(viewModel: EnvGroupViewModel) {
         guard statusBarManager == nil else { return }
         statusBarManager = StatusBarManager(viewModel: viewModel, appDelegate: self)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleOpenSettings),
+            name: .openSettings,
+            object: nil
+        )
+    }
+
+    @objc private func handleOpenSettings() {
+        openSettingsWindow()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -70,5 +81,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         if let window = mainWindow {
             window.makeKeyAndOrderFront(nil)
         }
+    }
+
+    func openSettingsWindow() {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+
+        // Reuse existing settings window if it exists
+        if let window = settingsWindow, window.isVisible {
+            window.makeKeyAndOrderFront(nil)
+            return
+        }
+
+        let settingsView = SettingsView()
+        let hostingController = NSHostingController(rootView: settingsView)
+
+        let window = NSWindow(contentViewController: hostingController)
+        window.title = "偏好设置"
+        window.styleMask = [.titled, .closable]
+        window.setContentSize(NSSize(width: 600, height: 400))
+        window.center()
+        window.makeKeyAndOrderFront(nil)
+
+        self.settingsWindow = window
     }
 }
