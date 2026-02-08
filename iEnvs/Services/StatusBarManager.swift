@@ -25,8 +25,9 @@ final class StatusBarManager: NSObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            if let image = NSImage(systemSymbolName: "terminal.fill", accessibilityDescription: "iEnvs") {
+            if let image = NSImage(named: "StatusBarIcon") {
                 image.isTemplate = true
+                image.size = NSSize(width: 18, height: 18)
                 button.image = image
             }
             button.toolTip = "iEnvs - 环境变量管理"
