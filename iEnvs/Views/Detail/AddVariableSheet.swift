@@ -1,10 +1,3 @@
-//
-//  AddVariableSheet.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct AddVariableSheet: View {
@@ -35,7 +28,7 @@ struct AddVariableSheet: View {
         VStack(spacing: 0) {
             // Header
             HStack {
-                Text("添加环境变量")
+                Text(L10n.AddVariable.title)
                     .font(.title2)
                     .fontWeight(.bold)
 
@@ -84,19 +77,19 @@ struct AddVariableSheet: View {
             // Footer
             HStack {
                 Toggle(isOn: $showBatchInput) {
-                    Text("批量导入")
+                    Text(L10n.AddVariable.batchImport)
                 }
                 .toggleStyle(.checkbox)
-                .help("粘贴多行 KEY=VALUE 格式")
+                .help(L10n.AddVariable.batchImportHelp)
 
                 Spacer()
 
-                Button("取消") {
+                Button(L10n.General.cancel) {
                     isPresented = false
                 }
                 .keyboardShortcut(.cancelAction)
 
-                Button(showBatchInput ? "导入" : "添加") {
+                Button(showBatchInput ? L10n.AddVariable.importButton : L10n.AddVariable.addButton) {
                     if showBatchInput {
                         saveBatchVariables()
                     } else {
@@ -117,10 +110,10 @@ struct AddVariableSheet: View {
         VStack(spacing: 16) {
             // Key input
             VStack(alignment: .leading, spacing: 6) {
-                Text("变量名")
+                Text(L10n.AddVariable.variableName)
                     .font(.headline)
 
-                TextField("例如: NODE_ENV", text: $key)
+                TextField(L10n.AddVariable.variableNamePlaceholder, text: $key)
                     .textFieldStyle(.roundedBorder)
                     .font(.system(.body, design: .monospaced))
                     .onChange(of: key) { _ in
@@ -134,20 +127,20 @@ struct AddVariableSheet: View {
                             if keyAlreadyExists {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundStyle(.red)
-                                Text("该变量名已存在")
+                                Text(L10n.AddVariable.nameExists)
                                     .font(.caption)
                                     .foregroundStyle(.red)
                             } else {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundStyle(.green)
-                                Text("变量名有效")
+                                Text(L10n.AddVariable.nameValid)
                                     .font(.caption)
                                     .foregroundStyle(.green)
                             }
                         } else {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundStyle(.red)
-                            Text("只能包含字母、数字和下划线，且必须以字母或下划线开头")
+                            Text(L10n.AddVariable.nameInvalid)
                                 .font(.caption)
                                 .foregroundStyle(.red)
                         }
@@ -157,10 +150,10 @@ struct AddVariableSheet: View {
 
             // Value input
             VStack(alignment: .leading, spacing: 6) {
-                Text("变量值")
+                Text(L10n.AddVariable.variableValue)
                     .font(.headline)
 
-                TextField("例如: production", text: $value)
+                TextField(L10n.AddVariable.variableValuePlaceholder, text: $value)
                     .textFieldStyle(.roundedBorder)
                     .font(.system(.body, design: .monospaced))
             }
@@ -168,12 +161,12 @@ struct AddVariableSheet: View {
             // Sensitive toggle
             Toggle(isOn: $isSensitive) {
                 HStack(spacing: 6) {
-                    Text("敏感信息")
+                    Text(L10n.AddVariable.sensitiveInfo)
                         .font(.headline)
 
                     Image(systemName: "info.circle")
                         .foregroundStyle(.secondary)
-                        .help("敏感信息将在列表中隐藏显示")
+                        .help(L10n.AddVariable.sensitiveHelp)
                 }
             }
             .toggleStyle(.checkbox)
@@ -184,10 +177,10 @@ struct AddVariableSheet: View {
 
     private var batchInputView: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("批量导入")
+            Text(L10n.AddVariable.batchImportTitle)
                 .font(.headline)
 
-            Text("每行一个变量，格式: KEY=VALUE")
+            Text(L10n.AddVariable.batchImportFormat)
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -198,7 +191,7 @@ struct AddVariableSheet: View {
                 .scrollContentBackground(.hidden)
                 .background(Color(nsColor: .textBackgroundColor))
 
-            Text("示例:\nNODE_ENV=production\nAPI_KEY=sk-1234567890\nPORT=3000")
+            Text("Example:\nNODE_ENV=production\nAPI_KEY=sk-1234567890\nPORT=3000")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
                 .padding(.top, 4)
@@ -214,9 +207,9 @@ struct AddVariableSheet: View {
         }
 
         if !isKeyValid {
-            errorMessage = "变量名格式不正确"
+            errorMessage = L10n.AddVariable.nameFormatError
         } else if keyAlreadyExists {
-            errorMessage = "变量名已存在"
+            errorMessage = L10n.AddVariable.nameExists
         } else {
             errorMessage = nil
         }
@@ -245,7 +238,7 @@ struct AddVariableSheet: View {
         for line in lines {
             let parts = line.components(separatedBy: "=")
             guard parts.count >= 2 else {
-                errors.append("格式错误: \(line)")
+                errors.append(L10n.AddVariable.formatError(line))
                 continue
             }
 
@@ -253,12 +246,12 @@ struct AddVariableSheet: View {
             let value = parts.dropFirst().joined(separator: "=").trimmingCharacters(in: .whitespaces)
 
             guard Validators.validateEnvKey(key) else {
-                errors.append("无效的变量名: \(key)")
+                errors.append(L10n.AddVariable.invalidName(key))
                 continue
             }
 
             if group.variables.contains(where: { $0.key == key }) {
-                errors.append("变量已存在: \(key)")
+                errors.append(L10n.AddVariable.variableExists(key))
                 continue
             }
 
@@ -269,7 +262,7 @@ struct AddVariableSheet: View {
         if errors.isEmpty {
             isPresented = false
         } else {
-            errorMessage = "成功导入 \(addedCount) 个变量\n错误: \(errors.joined(separator: "\n"))"
+            errorMessage = L10n.AddVariable.batchResult(imported: addedCount, errors: errors)
         }
     }
 }
@@ -278,7 +271,7 @@ struct AddVariableSheet: View {
 
 #Preview {
     AddVariableSheet(
-        group: EnvGroup(name: "示例分组", variables: []),
+        group: EnvGroup(name: "Sample", variables: []),
         isPresented: .constant(true)
     )
     .environmentObject(EnvGroupViewModel())

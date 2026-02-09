@@ -1,10 +1,3 @@
-//
-//  EmptyStateView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct EmptyStateView: View {
@@ -15,11 +8,11 @@ struct EmptyStateView: View {
                 .foregroundStyle(.secondary)
 
             VStack(spacing: 4) {
-                Text("此分组暂无环境变量")
+                Text(L10n.EmptyState.noVariables)
                     .font(.headline)
                     .foregroundStyle(.primary)
 
-                Text("点击 + 按钮添加环境变量")
+                Text(L10n.EmptyState.addVariableHint)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

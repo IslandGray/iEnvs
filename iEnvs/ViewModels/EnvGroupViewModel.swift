@@ -72,7 +72,7 @@ final class EnvGroupViewModel: ObservableObject {
         groups.append(newGroup)
         saveData()
 
-        notificationMessage = "已添加分组：\(name)"
+        notificationMessage = L10n.Notification.groupAdded(name)
         showNotification = true
     }
 
@@ -82,14 +82,13 @@ final class EnvGroupViewModel: ObservableObject {
 
         groups.remove(at: index)
 
-        // 重新排序
         for (index, _) in groups.enumerated() {
             groups[index].order = index
         }
 
         saveData()
 
-        notificationMessage = "已删除分组：\(groupName)"
+        notificationMessage = L10n.Notification.groupDeleted(groupName)
         showNotification = true
     }
 
@@ -102,14 +101,13 @@ final class EnvGroupViewModel: ObservableObject {
 
         saveData()
 
-        notificationMessage = "已更新分组：\(name)"
+        notificationMessage = L10n.Notification.groupUpdated(name)
         showNotification = true
     }
 
     func moveGroup(from source: IndexSet, to destination: Int) {
         groups.move(fromOffsets: source, toOffset: destination)
 
-        // 重新排序
         for (index, _) in groups.enumerated() {
             groups[index].order = index
         }
@@ -123,10 +121,9 @@ final class EnvGroupViewModel: ObservableObject {
         groups[index].isEnabled.toggle()
         groups[index].updatedAt = Date()
 
-        let status = groups[index].isEnabled ? "启用" : "禁用"
         saveData()
 
-        notificationMessage = "已\(status)分组：\(groups[index].name)"
+        notificationMessage = L10n.Notification.groupToggled(enabled: groups[index].isEnabled, name: groups[index].name)
         showNotification = true
 
         if groups[index].isEnabled {
@@ -139,13 +136,12 @@ final class EnvGroupViewModel: ObservableObject {
 
         var duplicatedGroup = groups[index]
         duplicatedGroup.id = UUID()
-        duplicatedGroup.name = "\(duplicatedGroup.name) (副本)"
+        duplicatedGroup.name = L10n.Notification.duplicateSuffix(duplicatedGroup.name)
         duplicatedGroup.isEnabled = false
         duplicatedGroup.order = groups.count
         duplicatedGroup.createdAt = Date()
         duplicatedGroup.updatedAt = Date()
 
-        // 复制变量并生成新 ID
         duplicatedGroup.variables = duplicatedGroup.variables.map { variable in
             var newVariable = variable
             newVariable.id = UUID()
@@ -157,7 +153,7 @@ final class EnvGroupViewModel: ObservableObject {
         groups.append(duplicatedGroup)
         saveData()
 
-        notificationMessage = "已复制分组：\(duplicatedGroup.name)"
+        notificationMessage = L10n.Notification.groupDuplicated(duplicatedGroup.name)
         showNotification = true
     }
 
@@ -178,7 +174,7 @@ final class EnvGroupViewModel: ObservableObject {
 
         saveData()
 
-        notificationMessage = "已添加变量：\(key)"
+        notificationMessage = L10n.Notification.variableAdded(key)
         showNotification = true
     }
 
@@ -194,7 +190,7 @@ final class EnvGroupViewModel: ObservableObject {
 
         saveData()
 
-        notificationMessage = "已删除变量：\(key)"
+        notificationMessage = L10n.Notification.variableDeleted(key)
         showNotification = true
     }
 
@@ -211,7 +207,7 @@ final class EnvGroupViewModel: ObservableObject {
 
         saveData()
 
-        notificationMessage = "已更新变量：\(key)"
+        notificationMessage = L10n.Notification.variableUpdated(key)
         showNotification = true
     }
 
@@ -253,7 +249,7 @@ final class EnvGroupViewModel: ObservableObject {
                 shellType: settings.shellType
             )
         } catch {
-            notificationMessage = "同步 Shell 配置失败：\(error.localizedDescription)"
+            notificationMessage = L10n.Notification.shellSyncFailed(error.localizedDescription)
             showNotification = true
         }
     }
@@ -262,7 +258,7 @@ final class EnvGroupViewModel: ObservableObject {
         let appData = dataStore.load()
         let configPath = appData.settings.configFilePath
 
-        notificationMessage = "配置已更新，请运行以下命令使其生效：\nsource \(configPath)"
+        notificationMessage = L10n.Notification.sourceReminder(configPath)
         showNotification = true
     }
 

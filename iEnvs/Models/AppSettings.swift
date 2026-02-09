@@ -1,6 +1,20 @@
 import Foundation
 import AppKit
 
+enum AppLanguage: String, Codable, CaseIterable, Identifiable {
+    case zh = "zh"
+    case en = "en"
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .zh: return "中文"
+        case .en: return "English"
+        }
+    }
+}
+
 struct AppSettings: Codable, Equatable {
     var shellType: ShellType
     var configFilePath: String
@@ -10,6 +24,7 @@ struct AppSettings: Codable, Equatable {
     var enableConflictDetection: Bool
     var enableRegexSearch: Bool
     var exportIncludesDisabledGroups: Bool
+    var language: AppLanguage
 
     init(
         shellType: ShellType = .detectCurrent(),
@@ -19,7 +34,8 @@ struct AppSettings: Codable, Equatable {
         theme: ThemeMode = .auto,
         enableConflictDetection: Bool = true,
         enableRegexSearch: Bool = false,
-        exportIncludesDisabledGroups: Bool = false
+        exportIncludesDisabledGroups: Bool = false,
+        language: AppLanguage = .zh
     ) {
         self.shellType = shellType
         self.configFilePath = configFilePath.isEmpty ? shellType.defaultConfigPath : configFilePath
@@ -29,6 +45,7 @@ struct AppSettings: Codable, Equatable {
         self.enableConflictDetection = enableConflictDetection
         self.enableRegexSearch = enableRegexSearch
         self.exportIncludesDisabledGroups = exportIncludesDisabledGroups
+        self.language = language
     }
 }
 
@@ -41,9 +58,9 @@ enum ThemeMode: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .auto: return "自动"
-        case .light: return "浅色"
-        case .dark: return "深色"
+        case .auto: return L10n.Settings.themeAuto
+        case .light: return L10n.Settings.themeLight
+        case .dark: return L10n.Settings.themeDark
         }
     }
 

@@ -1,10 +1,3 @@
-//
-//  ExportImportView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 import AppKit
 
@@ -22,7 +15,7 @@ struct ExportImportView: View {
         VStack(spacing: 0) {
             // Header
             HStack {
-                Text("导入/导出")
+                Text(L10n.Export.title)
                     .font(.title2)
                     .fontWeight(.bold)
 
@@ -59,7 +52,7 @@ struct ExportImportView: View {
             HStack {
                 Spacer()
 
-                Button("关闭") {
+                Button(L10n.General.close) {
                     isPresented = false
                 }
                 .keyboardShortcut(.cancelAction)
@@ -67,11 +60,11 @@ struct ExportImportView: View {
             .padding()
         }
         .frame(width: 500, height: 400)
-        .alert("操作结果", isPresented: Binding(
+        .alert(L10n.Export.operationResult, isPresented: Binding(
             get: { showingExportResult || showingImportResult },
             set: { if !$0 { showingExportResult = false; showingImportResult = false } }
         )) {
-            Button("确定", role: .cancel) {}
+            Button(L10n.General.ok, role: .cancel) {}
         } message: {
             Text(resultMessage)
         }
@@ -86,24 +79,24 @@ struct ExportImportView: View {
                     .font(.title2)
                     .foregroundStyle(.blue)
 
-                Text("导出")
+                Text(L10n.Export.exportTitle)
                     .font(.title3)
                     .fontWeight(.semibold)
             }
 
-            Text("将环境变量分组导出为 JSON 文件")
+            Text(L10n.Export.exportDesc)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             Toggle(isOn: $exportIncludesDisabled) {
-                Text("包含已禁用的分组")
+                Text(L10n.Export.includeDisabled)
                     .font(.body)
             }
             .toggleStyle(.checkbox)
             .padding(.vertical, 4)
 
             Button(action: exportToJSON) {
-                Label("导出为 JSON", systemImage: "doc.text")
+                Label(L10n.Export.exportJSON, systemImage: "doc.text")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
@@ -123,12 +116,12 @@ struct ExportImportView: View {
                     .font(.title2)
                     .foregroundStyle(.green)
 
-                Text("导入")
+                Text(L10n.Export.importTitle)
                     .font(.title3)
                     .fontWeight(.semibold)
             }
 
-            Text("从 JSON 文件导入环境变量分组")
+            Text(L10n.Export.importDesc)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -137,15 +130,15 @@ struct ExportImportView: View {
                     Image(systemName: "info.circle")
                         .foregroundStyle(.secondary)
 
-                    Text("导入时的处理规则:")
+                    Text(L10n.Export.importRules)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("• 如果分组名已存在，将提示选择操作")
-                    Text("• 导入的分组默认为禁用状态")
-                    Text("• 将保留原有分组的顺序")
+                    Text("• \(L10n.Export.importRule1)")
+                    Text("• \(L10n.Export.importRule2)")
+                    Text("• \(L10n.Export.importRule3)")
                 }
                 .font(.caption)
                 .foregroundStyle(.tertiary)
@@ -154,7 +147,7 @@ struct ExportImportView: View {
             .padding(.vertical, 4)
 
             Button(action: importFromJSON) {
-                Label("从 JSON 导入", systemImage: "doc.badge.plus")
+                Label(L10n.Export.importJSON, systemImage: "doc.badge.plus")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
@@ -175,8 +168,8 @@ struct ExportImportView: View {
         let savePanel = NSSavePanel()
         savePanel.allowedContentTypes = [.json]
         savePanel.nameFieldStringValue = "ienvs-export-\(Date.filenameSafeString).json"
-        savePanel.title = "导出环境变量"
-        savePanel.message = "选择导出文件的保存位置"
+        savePanel.title = L10n.Export.exportDialogTitle
+        savePanel.message = L10n.Export.exportDialogMessage
 
         savePanel.begin { response in
             defer { isProcessing = false }
@@ -198,10 +191,10 @@ struct ExportImportView: View {
                 let data = try encoder.encode(exportData)
                 try data.write(to: url)
 
-                resultMessage = "成功导出 \(groupsToExport.count) 个分组到:\n\(url.path)"
+                resultMessage = L10n.Export.exportSuccess(count: groupsToExport.count, path: url.path)
                 showingExportResult = true
             } catch {
-                resultMessage = "导出失败:\n\(error.localizedDescription)"
+                resultMessage = L10n.Export.exportFailed(error.localizedDescription)
                 showingExportResult = true
             }
         }
@@ -214,8 +207,8 @@ struct ExportImportView: View {
         let openPanel = NSOpenPanel()
         openPanel.allowedContentTypes = [.json]
         openPanel.allowsMultipleSelection = false
-        openPanel.title = "导入环境变量"
-        openPanel.message = "选择要导入的 JSON 文件"
+        openPanel.title = L10n.Export.importDialogTitle
+        openPanel.message = L10n.Export.importDialogMessage
 
         openPanel.begin { response in
             defer { isProcessing = false }
@@ -269,13 +262,13 @@ struct ExportImportView: View {
                     importedCount += 1
                 }
 
-                resultMessage = "导入完成:\n成功导入 \(importedCount) 个分组"
+                resultMessage = L10n.Export.importSuccess(count: importedCount)
                 if skippedCount > 0 {
-                    resultMessage += "\n跳过 \(skippedCount) 个分组"
+                    resultMessage += "\n" + L10n.Export.importSkipped(skippedCount)
                 }
                 showingImportResult = true
             } catch {
-                resultMessage = "导入失败:\n\(error.localizedDescription)"
+                resultMessage = L10n.Export.importFailed(error.localizedDescription)
                 showingImportResult = true
             }
         }
@@ -285,11 +278,11 @@ struct ExportImportView: View {
 
     private func askForConflictResolution(groupName: String) -> ConflictResolution {
         let alert = NSAlert()
-        alert.messageText = "分组名称冲突"
-        alert.informativeText = "已存在名为「\(groupName)」的分组，请选择操作："
-        alert.addButton(withTitle: "跳过")
-        alert.addButton(withTitle: "重命名")
-        alert.addButton(withTitle: "覆盖")
+        alert.messageText = L10n.Export.conflictTitle
+        alert.informativeText = L10n.Export.conflictMessage(groupName)
+        alert.addButton(withTitle: L10n.Export.skip)
+        alert.addButton(withTitle: L10n.General.rename)
+        alert.addButton(withTitle: L10n.Export.overwrite)
         alert.alertStyle = .warning
 
         let response = alert.runModal()
@@ -308,11 +301,11 @@ struct ExportImportView: View {
 
     private func generateUniqueName(baseName: String, existingNames: Set<String>) -> String {
         var counter = 1
-        var newName = "\(baseName)-导入"
+        var newName = L10n.Export.importSuffix(baseName)
 
         while existingNames.contains(newName) {
             counter += 1
-            newName = "\(baseName)-导入\(counter)"
+            newName = L10n.Export.importSuffixN(baseName, counter)
         }
 
         return newName

@@ -15,17 +15,17 @@ struct AddGroupSheet: View {
     var body: some View {
         VStack(spacing: 20) {
             // Header
-            Text("添加新分组")
+            Text(L10n.AddGroup.title)
                 .font(.title2)
                 .bold()
 
             // Form
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("分组名称")
+                    Text(L10n.AddGroup.groupName)
                         .font(.headline)
 
-                    TextField("例如：前端开发", text: $groupName)
+                    TextField(L10n.AddGroup.groupNamePlaceholder, text: $groupName)
                         .textFieldStyle(.roundedBorder)
                         .onChange(of: groupName) { _ in
                             validateName()
@@ -39,10 +39,10 @@ struct AddGroupSheet: View {
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("描述（可选）")
+                    Text(L10n.AddGroup.descriptionLabel)
                         .font(.headline)
 
-                    TextField("例如：Node.js 项目环境变量", text: $groupDescription)
+                    TextField(L10n.AddGroup.descriptionPlaceholder, text: $groupDescription)
                         .textFieldStyle(.roundedBorder)
                 }
             }
@@ -52,14 +52,14 @@ struct AddGroupSheet: View {
 
             // Buttons
             HStack {
-                Button("取消") {
+                Button(L10n.General.cancel) {
                     dismiss()
                 }
                 .keyboardShortcut(.cancelAction)
 
                 Spacer()
 
-                Button("确认") {
+                Button(L10n.General.confirm) {
                     addGroup()
                 }
                 .keyboardShortcut(.defaultAction)
@@ -80,13 +80,13 @@ struct AddGroupSheet: View {
 
         // Check if name is too long
         if trimmedName.count > 100 {
-            validationError = "分组名称不能超过 100 个字符"
+            validationError = L10n.AddGroup.nameTooLong
             return
         }
 
         // Check if name already exists
         if viewModel.groups.contains(where: { $0.name == trimmedName }) {
-            validationError = "该分组名称已存在"
+            validationError = L10n.AddGroup.nameExists
             return
         }
 

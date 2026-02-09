@@ -30,7 +30,7 @@ final class StatusBarManager: NSObject {
                 image.size = NSSize(width: 18, height: 18)
                 button.image = image
             }
-            button.toolTip = "iEnvs - 环境变量管理"
+            button.toolTip = L10n.StatusBar.tooltip
         }
 
         rebuildMenu()
@@ -38,6 +38,13 @@ final class StatusBarManager: NSObject {
 
     private func observeChanges() {
         viewModel.objectWillChange
+            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.rebuildMenu()
+            }
+            .store(in: &cancellables)
+
+        LocalizationManager.shared.objectWillChange
             .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
             .sink { [weak self] _ in
                 self?.rebuildMenu()
@@ -60,14 +67,14 @@ final class StatusBarManager: NSObject {
 
         // Groups
         if viewModel.groups.isEmpty {
-            let emptyItem = NSMenuItem(title: "暂无分组", action: nil, keyEquivalent: "")
+            let emptyItem = NSMenuItem(title: L10n.StatusBar.noGroups, action: nil, keyEquivalent: "")
             emptyItem.isEnabled = false
             menu.addItem(emptyItem)
         } else {
             for group in viewModel.groups {
                 let hasConflict = viewModel.hasConflict(groupId: group.id)
                 let conflictMark = hasConflict ? " ⚠️" : ""
-                let title = "\(group.name) (\(group.variables.count)个变量)\(conflictMark)"
+                let title = "\(L10n.StatusBar.groupInfo(group.name, group.variables.count))\(conflictMark)"
 
                 let item = NSMenuItem(
                     title: title,
@@ -85,7 +92,7 @@ final class StatusBarManager: NSObject {
 
         // Sync action
         let syncItem = NSMenuItem(
-            title: "同步到 Shell 配置",
+            title: L10n.StatusBar.syncToShell,
             action: #selector(syncShellConfig),
             keyEquivalent: "s"
         )
@@ -99,7 +106,7 @@ final class StatusBarManager: NSObject {
 
         // Open main window
         let openItem = NSMenuItem(
-            title: "打开主窗口",
+            title: L10n.StatusBar.openMainWindow,
             action: #selector(openMainWindow),
             keyEquivalent: "o"
         )
@@ -115,7 +122,7 @@ final class StatusBarManager: NSObject {
 
         // Preferences
         let prefsItem = NSMenuItem(
-            title: "偏好设置...",
+            title: L10n.StatusBar.preferences,
             action: #selector(openSettings),
             keyEquivalent: ","
         )
@@ -131,7 +138,7 @@ final class StatusBarManager: NSObject {
 
         // Quit
         let quitItem = NSMenuItem(
-            title: "退出 iEnvs",
+            title: L10n.StatusBar.quit,
             action: #selector(quitApp),
             keyEquivalent: "q"
         )

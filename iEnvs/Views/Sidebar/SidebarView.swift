@@ -27,17 +27,17 @@ struct SidebarView: View {
                 GroupRowView(group: group)
                     .tag(group.id)
                     .contextMenu {
-                        Button("重命名") {
+                        Button(L10n.General.rename) {
                             // TODO: Implement rename
                         }
 
-                        Button("复制") {
+                        Button(L10n.General.duplicate) {
                             viewModel.duplicateGroup(id: group.id)
                         }
 
                         Divider()
 
-                        Button("删除", role: .destructive) {
+                        Button(L10n.General.delete, role: .destructive) {
                             selectedGroupID = group.id
                             showDeleteConfirmation = true
                         }
@@ -52,11 +52,11 @@ struct SidebarView: View {
                 }
             }
         }
-        .navigationTitle("分组")
+        .navigationTitle(L10n.Sidebar.groups)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: { showAddGroupSheet = true }) {
-                    Label("添加分组", systemImage: "plus")
+                    Label(L10n.Sidebar.addGroup, systemImage: "plus")
                 }
 
                 Button(action: {
@@ -64,7 +64,7 @@ struct SidebarView: View {
                         showDeleteConfirmation = true
                     }
                 }) {
-                    Label("删除分组", systemImage: "minus")
+                    Label(L10n.Sidebar.deleteGroup, systemImage: "minus")
                 }
                 .disabled(selectedGroupID == nil)
             }
@@ -72,9 +72,9 @@ struct SidebarView: View {
         .sheet(isPresented: $showAddGroupSheet) {
             AddGroupSheet()
         }
-        .alert("确认删除", isPresented: $showDeleteConfirmation) {
-            Button("取消", role: .cancel) { }
-            Button("删除", role: .destructive) {
+        .alert(L10n.Sidebar.confirmDelete, isPresented: $showDeleteConfirmation) {
+            Button(L10n.General.cancel, role: .cancel) { }
+            Button(L10n.General.delete, role: .destructive) {
                 if let groupID = selectedGroupID {
                     viewModel.deleteGroup(id: groupID)
                     selectedGroupID = nil
@@ -83,7 +83,7 @@ struct SidebarView: View {
         } message: {
             if let groupID = selectedGroupID,
                let group = viewModel.groups.first(where: { $0.id == groupID }) {
-                Text("确定要删除分组「\(group.name)」吗？此操作不可撤销。")
+                Text(L10n.Sidebar.confirmDeleteMessage(group.name))
             }
         }
     }

@@ -1,10 +1,3 @@
-//
-//  ShellSettingsView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct ShellSettingsView: View {
@@ -42,7 +35,7 @@ struct ShellSettingsView: View {
 
     private var detectedShellSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("当前检测到的 Shell")
+            Text(L10n.Settings.detectedShell)
                 .font(.headline)
 
             HStack(spacing: 8) {
@@ -55,7 +48,7 @@ struct ShellSettingsView: View {
 
                 Spacer()
 
-                Text("已检测")
+                Text(L10n.Settings.detected)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 8)
@@ -73,10 +66,10 @@ struct ShellSettingsView: View {
 
     private var shellTypeSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Shell 类型")
+            Text(L10n.Settings.shellType)
                 .font(.headline)
 
-            Picker("选择 Shell", selection: $viewModel.settings.shellType) {
+            Picker(L10n.Settings.selectShell, selection: $viewModel.settings.shellType) {
                 ForEach(ShellType.allCases) { type in
                     HStack {
                         Image(systemName: "terminal")
@@ -87,7 +80,7 @@ struct ShellSettingsView: View {
             }
             .pickerStyle(.radioGroup)
 
-            Text("更改 Shell 类型将自动更新配置文件路径")
+            Text(L10n.Settings.shellTypeChangeNote)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -97,11 +90,11 @@ struct ShellSettingsView: View {
 
     private var configPathSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("配置文件路径")
+            Text(L10n.Settings.configFilePath)
                 .font(.headline)
 
             HStack {
-                TextField("配置文件路径", text: $viewModel.settings.configFilePath)
+                TextField(L10n.Settings.configFilePathPlaceholder, text: $viewModel.settings.configFilePath)
                     .textFieldStyle(.roundedBorder)
                     .font(.system(.body, design: .monospaced))
                     .disabled(true)
@@ -110,10 +103,10 @@ struct ShellSettingsView: View {
                     Image(systemName: "arrow.right.circle")
                 }
                 .buttonStyle(.bordered)
-                .help("在 Finder 中显示")
+                .help(L10n.Settings.showInFinder)
             }
 
-            Text("配置文件将在此位置写入环境变量")
+            Text(L10n.Settings.configFileNote)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -126,11 +119,11 @@ struct ShellSettingsView: View {
             Button(action: {
                 viewModel.autoDetectShell()
             }) {
-                Label("自动检测 Shell", systemImage: "arrow.clockwise")
+                Label(L10n.Settings.autoDetectShell, systemImage: "arrow.clockwise")
             }
             .buttonStyle(.bordered)
 
-            Text("重新检测系统默认 Shell 并更新配置")
+            Text(L10n.Settings.autoDetectNote)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

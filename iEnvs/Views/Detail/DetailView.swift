@@ -1,10 +1,3 @@
-//
-//  DetailView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct DetailView: View {
@@ -77,18 +70,18 @@ struct DetailView: View {
         HStack(spacing: 12) {
             // Add variable button
             Button(action: { showAddVariable = true }) {
-                Label("添加变量", systemImage: "plus")
+                Label(L10n.Detail.addVariable, systemImage: "plus")
             }
             .buttonStyle(.bordered)
-            .help("添加新的环境变量")
+            .help(L10n.Detail.addVariableHelp)
 
             // Delete selected button
             Button(action: deleteSelectedVariables) {
-                Label("删除", systemImage: "trash")
+                Label(L10n.General.delete, systemImage: "trash")
             }
             .buttonStyle(.bordered)
             .disabled(selectedVariableIDs.isEmpty)
-            .help("删除选中的变量")
+            .help(L10n.Detail.deleteHelp)
 
             Spacer()
 
@@ -97,7 +90,7 @@ struct DetailView: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
 
-                TextField("过滤变量...", text: $filterText)
+                TextField(L10n.Detail.filterPlaceholder, text: $filterText)
                     .textFieldStyle(.plain)
                     .frame(width: 200)
 
@@ -121,14 +114,14 @@ struct DetailView: View {
 
     private var variableList: some View {
         Table(of: EnvVariable.self, selection: $selectedVariableIDs) {
-            TableColumn("变量名") { variable in
+            TableColumn(L10n.Detail.columnKey) { variable in
                 Text(variable.key)
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(.primary)
             }
             .width(min: 150, ideal: 250, max: 400)
 
-            TableColumn("变量值") { variable in
+            TableColumn(L10n.Detail.columnValue) { variable in
                 VariableValueView(variable: variable)
             }
             .width(min: 200)
@@ -146,24 +139,24 @@ struct DetailView: View {
 
     @ViewBuilder
     private func variableContextMenu(for variable: EnvVariable) -> some View {
-        Button("编辑") {
+        Button(L10n.General.edit) {
             // TODO: Show edit sheet
         }
 
-        Button("复制值") {
+        Button(L10n.Detail.copyValue) {
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(variable.value, forType: .string)
         }
 
         Divider()
 
-        Button(variable.isSensitive ? "标记为普通" : "标记为敏感") {
+        Button(variable.isSensitive ? L10n.Detail.markNormal : L10n.Detail.markSensitive) {
             viewModel.toggleSensitive(in: group.id, variableId: variable.id)
         }
 
         Divider()
 
-        Button("删除", role: .destructive) {
+        Button(L10n.General.delete, role: .destructive) {
             viewModel.deleteVariable(from: group.id, variableId: variable.id)
         }
     }
@@ -196,7 +189,7 @@ struct VariableValueView: View {
                         .font(.caption)
                 }
                 .buttonStyle(.plain)
-                .help("显示敏感值")
+                .help(L10n.Detail.showSensitive)
             } else {
                 Text(variable.value)
                     .font(.system(.body, design: .monospaced))
@@ -208,7 +201,7 @@ struct VariableValueView: View {
                             .font(.caption)
                     }
                     .buttonStyle(.plain)
-                    .help("隐藏敏感值")
+                    .help(L10n.Detail.hideSensitive)
                 }
             }
         }
@@ -220,8 +213,8 @@ struct VariableValueView: View {
 #Preview {
     DetailView(
         group: EnvGroup(
-            name: "示例分组",
-            description: "这是一个示例分组",
+            name: "Sample Group",
+            description: "A sample group",
             variables: [
                 EnvVariable(key: "NODE_ENV", value: "development"),
                 EnvVariable(key: "API_KEY", value: "sk-1234567890", isSensitive: true)

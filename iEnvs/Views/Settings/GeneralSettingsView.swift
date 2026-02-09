@@ -1,14 +1,8 @@
-//
-//  GeneralSettingsView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct GeneralSettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
+    @ObservedObject var localization = LocalizationManager.shared
 
     var body: some View {
         Form {
@@ -16,6 +10,11 @@ struct GeneralSettingsView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     // Theme selection
                     themeSection
+
+                    Divider()
+
+                    // Language selection
+                    languageSection
 
                     Divider()
 
@@ -37,10 +36,10 @@ struct GeneralSettingsView: View {
 
     private var themeSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("外观")
+            Text(L10n.Settings.appearance)
                 .font(.headline)
 
-            Picker("主题", selection: $viewModel.settings.theme) {
+            Picker(L10n.Settings.theme, selection: $viewModel.settings.theme) {
                 ForEach(ThemeMode.allCases) { theme in
                     Text(theme.displayName).tag(theme)
                 }
@@ -48,9 +47,33 @@ struct GeneralSettingsView: View {
             .pickerStyle(.segmented)
             .frame(width: 300)
 
-            Text("注意: macOS 应用主题跟随系统设置")
+            Text(L10n.Settings.themeNote)
                 .font(.caption)
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    // MARK: - Language Section
+
+    private var languageSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(L10n.Settings.language)
+                .font(.headline)
+
+            Picker(L10n.Settings.languagePicker, selection: Binding(
+                get: { localization.language },
+                set: { newLang in
+                    localization.setLanguage(newLang)
+                    viewModel.settings.language = newLang
+                    viewModel.saveSettings()
+                }
+            )) {
+                ForEach(AppLanguage.allCases) { lang in
+                    Text(lang.displayName).tag(lang)
+                }
+            }
+            .pickerStyle(.segmented)
+            .frame(width: 300)
         }
     }
 
@@ -58,15 +81,15 @@ struct GeneralSettingsView: View {
 
     private var conflictDetectionSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("冲突检测")
+            Text(L10n.Settings.conflictDetection)
                 .font(.headline)
 
             Toggle(isOn: $viewModel.settings.enableConflictDetection) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("启用冲突检测")
+                    Text(L10n.Settings.enableConflictDetection)
                         .font(.body)
 
-                    Text("检测跨分组的变量名冲突并显示警告")
+                    Text(L10n.Settings.conflictDetectionDesc)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -79,15 +102,15 @@ struct GeneralSettingsView: View {
 
     private var exportSettingsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("导出设置")
+            Text(L10n.Settings.exportSettings)
                 .font(.headline)
 
             Toggle(isOn: $viewModel.settings.exportIncludesDisabledGroups) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("导出时包含禁用的分组")
+                    Text(L10n.Settings.exportIncludeDisabled)
                         .font(.body)
 
-                    Text("导出 JSON 时是否包含未启用的分组")
+                    Text(L10n.Settings.exportIncludeDisabledDesc)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

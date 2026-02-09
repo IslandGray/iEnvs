@@ -50,9 +50,10 @@ struct ConflictInfo: Identifiable, Equatable {
         Set(affectedGroups.map { $0.id })
     }
 
-    var description: String {
-        let groupNames = affectedGroups.map { $0.name }.joined(separator: "、")
-        return "变量 \(key) 在以下分组中重复：\(groupNames)"
+    var localizedDescription: String {
+        let separator = LocalizationManager.currentLanguage == .zh ? "、" : ", "
+        let groupNames = affectedGroups.map { $0.name }.joined(separator: separator)
+        return L10n.Conflict.description(key: key, groupNames: groupNames)
     }
 
     static func == (lhs: ConflictInfo, rhs: ConflictInfo) -> Bool {

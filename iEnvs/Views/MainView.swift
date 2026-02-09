@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var viewModel: EnvGroupViewModel
+    @ObservedObject var localization = LocalizationManager.shared
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var showExportImport: Bool = false
 
@@ -19,11 +20,11 @@ struct MainView: View {
                 EmptyStateView()
             }
         }
-        .searchable(text: $viewModel.searchText, prompt: "搜索分组或变量")
+        .searchable(text: $viewModel.searchText, prompt: L10n.MainView.searchPrompt)
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 Button(action: { showExportImport = true }) {
-                    Label("导入/导出", systemImage: "square.and.arrow.up.on.square")
+                    Label(L10n.MainView.exportImport, systemImage: "square.and.arrow.up.on.square")
                 }
             }
         }

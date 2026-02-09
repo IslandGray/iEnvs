@@ -31,11 +31,11 @@ struct GroupRowView: View {
                     if hasConflict {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(.yellow)
-                            .help("此分组存在变量冲突")
+                            .help(L10n.Detail.conflictWarning)
                     }
                 }
 
-                Text("\(group.variables.count) 个变量")
+                Text(L10n.Detail.variableCount(group.variables.count))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -49,8 +49,8 @@ struct GroupRowView: View {
 #Preview {
     List {
         GroupRowView(group: EnvGroup(
-            name: "前端开发",
-            description: "Node.js 环境",
+            name: "Frontend Dev",
+            description: "Node.js env",
             isEnabled: true,
             variables: [
                 EnvVariable(key: "NODE_ENV", value: "development"),
@@ -60,8 +60,8 @@ struct GroupRowView: View {
         .environmentObject(EnvGroupViewModel())
 
         GroupRowView(group: EnvGroup(
-            name: "后端开发",
-            description: "Python 环境",
+            name: "Backend Dev",
+            description: "Python env",
             isEnabled: false,
             variables: []
         ))

@@ -31,8 +31,8 @@ extension AppData {
         AppData(
             groups: [
                 EnvGroup(
-                    name: "示例分组",
-                    description: "这是一个示例分组，你可以删除它",
+                    name: "示例分组 / Sample Group",
+                    description: "这是一个示例分组，你可以删除它 / This is a sample group, you can delete it",
                     isEnabled: false,
                     variables: [
                         EnvVariable(key: "EXAMPLE_VAR", value: "example_value")

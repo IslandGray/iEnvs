@@ -23,7 +23,8 @@ struct iEnvsApp: App {
                                 window.level == .normal &&
                                 window.canBecomeMain &&
                                 window.title != "Settings" &&
-                                window.title != "偏好设置"
+                                window.title != "偏好设置" &&
+                                window.title != "Preferences"
                             }) {
                                 appDelegate.mainWindow = window
                                 window.delegate = appDelegate
@@ -101,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         let hostingController = NSHostingController(rootView: settingsView)
 
         let window = NSWindow(contentViewController: hostingController)
-        window.title = "偏好设置"
+        window.title = L10n.Settings.preferences
         window.styleMask = [.titled, .closable]
         window.setContentSize(NSSize(width: 600, height: 400))
         window.center()

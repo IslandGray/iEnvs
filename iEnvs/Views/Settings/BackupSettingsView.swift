@@ -1,10 +1,3 @@
-//
-//  BackupSettingsView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct BackupSettingsView: View {
@@ -33,13 +26,13 @@ struct BackupSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .alert("删除备份", isPresented: $showDeleteConfirmation) {
-            Button("取消", role: .cancel) {}
-            Button("删除", role: .destructive) {
+        .alert(L10n.Settings.deleteBackupTitle, isPresented: $showDeleteConfirmation) {
+            Button(L10n.General.cancel, role: .cancel) {}
+            Button(L10n.General.delete, role: .destructive) {
                 deleteSelectedBackup()
             }
         } message: {
-            Text("确定要删除选中的备份吗？此操作无法撤销。")
+            Text(L10n.Settings.deleteBackupConfirm)
         }
     }
 
@@ -49,10 +42,10 @@ struct BackupSettingsView: View {
         VStack(alignment: .leading, spacing: 8) {
             Toggle(isOn: $viewModel.settings.autoBackup) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("自动备份")
+                    Text(L10n.Settings.autoBackup)
                         .font(.headline)
 
-                    Text("在修改配置文件前自动创建备份")
+                    Text(L10n.Settings.autoBackupDesc)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -65,7 +58,7 @@ struct BackupSettingsView: View {
 
     private var maxBackupCountSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("最大备份数量")
+            Text(L10n.Settings.maxBackupCount)
                 .font(.headline)
 
             HStack {
@@ -75,18 +68,18 @@ struct BackupSettingsView: View {
                     step: 1
                 ) {
                     HStack {
-                        Text("保留最近")
+                        Text(L10n.Settings.keepRecent)
                         Text("\(viewModel.settings.maxBackupCount)")
                             .fontWeight(.medium)
                             .foregroundColor(.blue)
-                        Text("个备份")
+                        Text(L10n.Settings.backupsUnit)
                     }
                 }
 
                 Spacer()
             }
 
-            Text("超过此数量的旧备份将被自动删除")
+            Text(L10n.Settings.autoDeleteNote)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -97,13 +90,13 @@ struct BackupSettingsView: View {
     private var backupListSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("备份列表")
+                Text(L10n.Settings.backupList)
                     .font(.headline)
 
                 Spacer()
 
                 Button(action: { viewModel.refreshBackups() }) {
-                    Label("刷新", systemImage: "arrow.clockwise")
+                    Label(L10n.General.refresh, systemImage: "arrow.clockwise")
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
@@ -115,7 +108,7 @@ struct BackupSettingsView: View {
                         .font(.system(size: 32))
                         .foregroundStyle(.secondary)
 
-                    Text("暂无备份")
+                    Text(L10n.Settings.noBackups)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -136,18 +129,18 @@ struct BackupSettingsView: View {
                     // Action buttons
                     HStack {
                         Button(action: restoreSelectedBackup) {
-                            Label("恢复备份", systemImage: "clock.arrow.circlepath")
+                            Label(L10n.Settings.restoreBackup, systemImage: "clock.arrow.circlepath")
                         }
                         .disabled(selectedBackup == nil)
 
                         Button(action: { showDeleteConfirmation = true }) {
-                            Label("删除", systemImage: "trash")
+                            Label(L10n.General.delete, systemImage: "trash")
                         }
                         .disabled(selectedBackup == nil)
 
                         Spacer()
 
-                        Text("\(viewModel.backups.count) 个备份")
+                        Text(L10n.Settings.backupCount(viewModel.backups.count))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

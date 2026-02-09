@@ -1,32 +1,26 @@
-//
-//  SettingsView.swift
-//  iEnvs
-//
-//  Created on 2026-02-08.
-//
-
 import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var settingsVM = SettingsViewModel()
+    @ObservedObject var localization = LocalizationManager.shared
 
     var body: some View {
         TabView {
             GeneralSettingsView(viewModel: settingsVM)
                 .tabItem {
-                    Label("通用", systemImage: "gearshape")
+                    Label(L10n.Settings.general, systemImage: "gearshape")
                 }
                 .tag(0)
 
             ShellSettingsView(viewModel: settingsVM)
                 .tabItem {
-                    Label("Shell", systemImage: "terminal")
+                    Label(L10n.Settings.shell, systemImage: "terminal")
                 }
                 .tag(1)
 
             BackupSettingsView(viewModel: settingsVM)
                 .tabItem {
-                    Label("备份", systemImage: "clock.arrow.circlepath")
+                    Label(L10n.Settings.backup, systemImage: "clock.arrow.circlepath")
                 }
                 .tag(2)
         }

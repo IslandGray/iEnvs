@@ -8,7 +8,7 @@ struct SearchBar: View {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
 
-            TextField("搜索", text: $text)
+            TextField(L10n.General.search, text: $text)
                 .textFieldStyle(.plain)
 
             if !text.isEmpty {
