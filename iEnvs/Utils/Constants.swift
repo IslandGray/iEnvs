@@ -40,6 +40,21 @@ enum Constants {
         }
     }
 
+    enum HostsMarkers {
+        static let sectionStart = "# ========== iEnvs Managed Hosts =========="
+        static let sectionEnd = "# ========== End of iEnvs Managed Hosts =========="
+        static let warning = "# WARNING: This section is managed by iEnvs. Do not edit manually."
+        static let hostsFilePath = "/etc/hosts"
+
+        static func groupStart(id: UUID, name: String) -> String {
+            "# [iEnvs:\(id.uuidString)] START - \(name)"
+        }
+
+        static func groupEnd(id: UUID, name: String) -> String {
+            "# [iEnvs:\(id.uuidString)] END - \(name)"
+        }
+    }
+
     enum Defaults {
         static let maxBackupCount = 10
         static let minBackupCount = 5

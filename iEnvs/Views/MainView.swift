@@ -1,29 +1,88 @@
 import SwiftUI
 
+enum ManageTab: String, CaseIterable {
+    case envVars = "envVars"
+    case hosts = "hosts"
+
+    var label: String {
+        switch self {
+        case .envVars: return L10n.Hosts.tabEnvVars
+        case .hosts: return L10n.Hosts.tabHosts
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .envVars: return "terminal"
+        case .hosts: return "network"
+        }
+    }
+}
+
 struct MainView: View {
     @EnvironmentObject var viewModel: EnvGroupViewModel
+    @EnvironmentObject var hostsViewModel: HostsGroupViewModel
     @ObservedObject var localization = LocalizationManager.shared
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var showExportImport: Bool = false
+    @State private var showHostsExportImport: Bool = false
+    @State private var selectedTab: ManageTab = .envVars
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            // Left Sidebar
-            SidebarView(selectedGroupID: $viewModel.selectedGroupId)
-                .navigationSplitViewColumnWidth(min: 200, ideal: 250, max: 350)
+            VStack(spacing: 0) {
+                // Tab switcher at top of sidebar
+                Picker("", selection: $selectedTab) {
+                    ForEach(ManageTab.allCases, id: \.self) { tab in
+                        Label(tab.label, systemImage: tab.icon).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+
+                Divider()
+
+                // Sidebar content based on selected tab
+                switch selectedTab {
+                case .envVars:
+                    SidebarView(selectedGroupID: $viewModel.selectedGroupId)
+                case .hosts:
+                    HostsSidebarView(selectedGroupID: $hostsViewModel.selectedHostsGroupId)
+                }
+            }
+            .navigationSplitViewColumnWidth(min: 200, ideal: 250, max: 350)
         } detail: {
-            // Right Detail
-            if let groupID = viewModel.selectedGroupId,
-               let group = viewModel.groups.first(where: { $0.id == groupID }) {
-                DetailView(group: group)
-            } else {
-                EmptyStateView()
+            switch selectedTab {
+            case .envVars:
+                if let groupID = viewModel.selectedGroupId,
+                   let group = viewModel.groups.first(where: { $0.id == groupID }) {
+                    DetailView(group: group)
+                } else {
+                    EmptyStateView()
+                }
+            case .hosts:
+                if let groupID = hostsViewModel.selectedHostsGroupId,
+                   let group = hostsViewModel.hostsGroups.first(where: { $0.id == groupID }) {
+                    HostsDetailView(group: group)
+                } else {
+                    HostsEmptyStateView()
+                }
             }
         }
-        .searchable(text: $viewModel.searchText, prompt: L10n.MainView.searchPrompt)
+        .searchable(
+            text: selectedTab == .envVars ? $viewModel.searchText : $hostsViewModel.hostsSearchText,
+            prompt: L10n.MainView.searchPrompt
+        )
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
-                Button(action: { showExportImport = true }) {
+                Button(action: {
+                    if selectedTab == .envVars {
+                        showExportImport = true
+                    } else {
+                        showHostsExportImport = true
+                    }
+                }) {
                     Label(L10n.MainView.exportImport, systemImage: "square.and.arrow.up.on.square")
                 }
             }
@@ -32,18 +91,30 @@ struct MainView: View {
             ExportImportView(isPresented: $showExportImport)
                 .environmentObject(viewModel)
         }
+        .sheet(isPresented: $showHostsExportImport) {
+            HostsExportImportView(isPresented: $showHostsExportImport)
+                .environmentObject(hostsViewModel)
+        }
         .onAppear {
             viewModel.loadData()
+            hostsViewModel.loadData()
         }
         .overlay(alignment: .bottom) {
             if viewModel.showNotification {
-                notificationBanner
+                notificationBanner(message: viewModel.notificationMessage) {
+                    viewModel.showNotification = false
+                }
+            }
+            if hostsViewModel.showNotification {
+                notificationBanner(message: hostsViewModel.notificationMessage) {
+                    hostsViewModel.showNotification = false
+                }
             }
         }
     }
 
-    private var notificationBanner: some View {
-        Text(viewModel.notificationMessage)
+    private func notificationBanner(message: String, dismiss: @escaping () -> Void) -> some View {
+        Text(message)
             .font(.callout)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -55,7 +126,7 @@ struct MainView: View {
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     withAnimation {
-                        viewModel.showNotification = false
+                        dismiss()
                     }
                 }
             }
@@ -65,4 +136,5 @@ struct MainView: View {
 #Preview {
     MainView()
         .environmentObject(EnvGroupViewModel())
+        .environmentObject(HostsGroupViewModel())
 }

@@ -15,19 +15,30 @@
 		1754D5284A8AF79F6A9B58AE /* GroupRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5AF3FA27A247FC0217E1C4 /* GroupRowView.swift */; };
 		18C472C80EAB1C4C14B93CC3 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8793DF79FA99D705688A8A /* Logger.swift */; };
 		191297CBA5A1F0485C92B026 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA39F405DBD2468743EDCDA9 /* EmptyStateView.swift */; };
+		1A421383F3975019440FD5EB /* HostsEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66874B7A0E8A1BE0F6997EE /* HostsEmptyStateView.swift */; };
 		2124191CFC862B13ACD31611 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285C6568734894F42862ED8 /* Constants.swift */; };
 		2A0A6D879C8990BA728AE546 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9EE3AB8C4AFA6AF3DDE3E8 /* BackupManager.swift */; };
+		2CE20DD0E493550E14E1E389 /* HostsGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D6F5B3F992B966952C879 /* HostsGroupViewModel.swift */; };
+		33D0F33ED7FD628222C5A02F /* HostsFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC19088BB9A557D5DF53607 /* HostsFileManager.swift */; };
 		389278E063DF6849EF0E404C /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E0A74B4194EC31B13DDD23 /* GeneralSettingsView.swift */; };
+		390083948FD6C19B35F0035B /* HostsConflictDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235E64E85E6EF06A7BDCDB91 /* HostsConflictDetector.swift */; };
 		3B03344BCD59D006ED663EF4 /* ShellConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F051C569839373EAF1A1D46 /* ShellConfigManager.swift */; };
+		43413B0DA4221FC9CF255939 /* HostsSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05437F729DDA3AB36636F76F /* HostsSidebarView.swift */; };
 		4C2856673628358B4B472993 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07BA47EABAAB4A221BB72C0 /* SettingsView.swift */; };
 		56FCE5601ADBBD4C798E0F8A /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC366651DBC36B2B5F9EE606 /* Validators.swift */; };
+		5A790D0573B8D7B069DED8F3 /* HostsExportImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E29F2CF1E2F66790DECB97 /* HostsExportImportView.swift */; };
+		5BE75F3EF61F7BAC27DCF4EA /* HostGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48777EE47B4887124EBE0405 /* HostGroup.swift */; };
 		5F68D0C9F89C9F164E1EA812 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09594B151A730636FCC085B /* AppSettings.swift */; };
+		6E2EC01B266832FBDE979F20 /* AddHostEntrySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE875635638172C24DE62C0 /* AddHostEntrySheet.swift */; };
 		739B2AAD1B40E52BFA1422C8 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4561ADF188A3D867686E42 /* DataStore.swift */; };
+		7C254B0B592F5B66D9F2FEFA /* HostsGroupRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660C3A0C1E30FC832F310DB6 /* HostsGroupRowView.swift */; };
 		8072CDAEE7ABCF3FDDF0B8FF /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7176BE35BFAEBFA27DAA3F8 /* SettingsViewModel.swift */; };
 		80BBD8A83CD54E2C519B3047 /* AddGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B6B5FE4B62601FA9A36DDB /* AddGroupSheet.swift */; };
 		866ABFED73CFA4F902E8C372 /* EnvVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85479320D2B41F0770B4104A /* EnvVariable.swift */; };
+		8722D28F9BFFAEA03DAEB167 /* HostsValidators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */; };
 		87A0431D18C3B387DF4924BF /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */; };
 		8971AC247CE5F28130F253CE /* VariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4B326BE844F874226858 /* VariableRowView.swift */; };
+		94F838A143C838E5B2C87FAF /* HostEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CA2FA681C35772F9DE46A /* HostEntry.swift */; };
 		9C969838D5D24DBD34EDAEF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72DA771F2F657C0550630757 /* Assets.xcassets */; };
 		9C9BB90014FAEC161FFC069E /* iEnvsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C746AE7A5A01EDEF9CA77FAE /* iEnvsApp.swift */; };
 		9CB16D9DE787D73696DC2B14 /* ShellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEFA34A7767C7CDFFB070DB /* ShellType.swift */; };
@@ -36,9 +47,13 @@
 		A67A79C07D019C3329FC3558 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BF28A253603AA1C004A5F0 /* DetailView.swift */; };
 		A7FE71B51CEECE7D36032AD9 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889748D1657D798079860077 /* Strings.swift */; };
 		AEB9739AC32643AFCB97025C /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CFB61EEE39236628580AD4 /* SidebarView.swift */; };
+		B3BEF92ED3AA0137AB1C0C67 /* AddHostsGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF58721E3095D5FAE9418AD2 /* AddHostsGroupSheet.swift */; };
 		C5B689C77751FBF020665655 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4775C509D384E6E29E4096CB /* StatusBarManager.swift */; };
 		CFB3A5C3BA5F40D25ACFC188 /* EnvGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */; };
+		D4ED4CAC0531F1C438C8EBEF /* HostsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A527593E5097505E8FF8E7 /* HostsDetailView.swift */; };
+		DD3326B2B61FC0FF36849E57 /* HostsImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC812B5F8BBE815974139A1 /* HostsImportExportManager.swift */; };
 		DD43C62F04476F1CCB50A8E3 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50649602EB0F137BFBA68321 /* ImportExportManager.swift */; };
+		E44E77F31264B113AF303E89 /* HostsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5361213D2FCEE2BF73E326 /* HostsSettingsView.swift */; };
 		ECF5CCAEA64247E12C1571ED /* EnvGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006D4C0ABCA293A289013E4 /* EnvGroupViewModel.swift */; };
 		EDDD0EE73F9744B02A1E4A99 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0160CA0944AD2EEC224551AC /* AppData.swift */; };
 /* End PBXBuildFile section */
@@ -46,28 +61,40 @@
 /* Begin PBXFileReference section */
 		00C7706DDD9203F80118EF2F /* ExportImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportImportView.swift; sourceTree = "<group>"; };
 		0160CA0944AD2EEC224551AC /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		05437F729DDA3AB36636F76F /* HostsSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsSidebarView.swift; sourceTree = "<group>"; };
 		0F5AF3FA27A247FC0217E1C4 /* GroupRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRowView.swift; sourceTree = "<group>"; };
 		1006D4C0ABCA293A289013E4 /* EnvGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvGroupViewModel.swift; sourceTree = "<group>"; };
 		1C074E46552FBD3B194E8BA9 /* ShellSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellSettingsView.swift; sourceTree = "<group>"; };
+		235E64E85E6EF06A7BDCDB91 /* HostsConflictDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsConflictDetector.swift; sourceTree = "<group>"; };
 		27CFB61EEE39236628580AD4 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		2AF1D2DDAA2A902A62278D24 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSettingsView.swift; sourceTree = "<group>"; };
 		3C4561ADF188A3D867686E42 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		3DE875635638172C24DE62C0 /* AddHostEntrySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHostEntrySheet.swift; sourceTree = "<group>"; };
 		4285C6568734894F42862ED8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4775C509D384E6E29E4096CB /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
+		48777EE47B4887124EBE0405 /* HostGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostGroup.swift; sourceTree = "<group>"; };
 		50649602EB0F137BFBA68321 /* ImportExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		5069B51493B449D885B24BEA /* AddVariableSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVariableSheet.swift; sourceTree = "<group>"; };
 		50A7C25C5301C64606846089 /* ConflictDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictDetector.swift; sourceTree = "<group>"; };
 		57BF28A253603AA1C004A5F0 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		61E29F2CF1E2F66790DECB97 /* HostsExportImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsExportImportView.swift; sourceTree = "<group>"; };
+		660C3A0C1E30FC832F310DB6 /* HostsGroupRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsGroupRowView.swift; sourceTree = "<group>"; };
 		6BEFA34A7767C7CDFFB070DB /* ShellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellType.swift; sourceTree = "<group>"; };
 		72DA771F2F657C0550630757 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F051C569839373EAF1A1D46 /* ShellConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellConfigManager.swift; sourceTree = "<group>"; };
 		85479320D2B41F0770B4104A /* EnvVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvVariable.swift; sourceTree = "<group>"; };
 		889748D1657D798079860077 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		8BC19088BB9A557D5DF53607 /* HostsFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsFileManager.swift; sourceTree = "<group>"; };
+		8F5361213D2FCEE2BF73E326 /* HostsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsSettingsView.swift; sourceTree = "<group>"; };
+		961CA2FA681C35772F9DE46A /* HostEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostEntry.swift; sourceTree = "<group>"; };
 		9F9E4B326BE844F874226858 /* VariableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableRowView.swift; sourceTree = "<group>"; };
 		A09594B151A730636FCC085B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		A66874B7A0E8A1BE0F6997EE /* HostsEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsEmptyStateView.swift; sourceTree = "<group>"; };
 		A7176BE35BFAEBFA27DAA3F8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		AB56C52089C4D4D7E4B4C70C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AF58721E3095D5FAE9418AD2 /* AddHostsGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHostsGroupSheet.swift; sourceTree = "<group>"; };
+		AFC812B5F8BBE815974139A1 /* HostsImportExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsImportExportManager.swift; sourceTree = "<group>"; };
 		B07BA47EABAAB4A221BB72C0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B7E0A74B4194EC31B13DDD23 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		BA39F405DBD2468743EDCDA9 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
@@ -76,10 +103,13 @@
 		C7B6B5FE4B62601FA9A36DDB /* AddGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupSheet.swift; sourceTree = "<group>"; };
 		CA8793DF79FA99D705688A8A /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CC366651DBC36B2B5F9EE606 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
+		D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsValidators.swift; sourceTree = "<group>"; };
 		E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvGroup.swift; sourceTree = "<group>"; };
 		EA11D47659FA09B9B64C730E /* iEnvs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iEnvs.entitlements; sourceTree = "<group>"; };
 		EF9EE3AB8C4AFA6AF3DDE3E8 /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		F0B3E399F2733CD27A0886A7 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		F37D6F5B3F992B966952C879 /* HostsGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsGroupViewModel.swift; sourceTree = "<group>"; };
+		F4A527593E5097505E8FF8E7 /* HostsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsDetailView.swift; sourceTree = "<group>"; };
 		FF0EE241736CE73EA0ACD5C3 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +121,8 @@
 				A09594B151A730636FCC085B /* AppSettings.swift */,
 				E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */,
 				85479320D2B41F0770B4104A /* EnvVariable.swift */,
+				961CA2FA681C35772F9DE46A /* HostEntry.swift */,
+				48777EE47B4887124EBE0405 /* HostGroup.swift */,
 				6BEFA34A7767C7CDFFB070DB /* ShellType.swift */,
 			);
 			path = Models;
@@ -116,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				1006D4C0ABCA293A289013E4 /* EnvGroupViewModel.swift */,
+				F37D6F5B3F992B966952C879 /* HostsGroupViewModel.swift */,
 				A7176BE35BFAEBFA27DAA3F8 /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -128,6 +161,7 @@
 				F7DA959FB657BA2B0ADCA8C1 /* Components */,
 				E5D943ACFBB9ABAFD63932CC /* Detail */,
 				C3C4A7BF4D742613DC3B0283 /* Dialogs */,
+				997B832F7E7A3712D8346D7C /* Hosts */,
 				9645D749D0E79D9D6D43EC70 /* Settings */,
 				BA77ED16F605A62F10517EA5 /* Sidebar */,
 			);
@@ -140,6 +174,9 @@
 				EF9EE3AB8C4AFA6AF3DDE3E8 /* BackupManager.swift */,
 				50A7C25C5301C64606846089 /* ConflictDetector.swift */,
 				3C4561ADF188A3D867686E42 /* DataStore.swift */,
+				235E64E85E6EF06A7BDCDB91 /* HostsConflictDetector.swift */,
+				8BC19088BB9A557D5DF53607 /* HostsFileManager.swift */,
+				AFC812B5F8BBE815974139A1 /* HostsImportExportManager.swift */,
 				50649602EB0F137BFBA68321 /* ImportExportManager.swift */,
 				7F051C569839373EAF1A1D46 /* ShellConfigManager.swift */,
 				4775C509D384E6E29E4096CB /* StatusBarManager.swift */,
@@ -152,16 +189,32 @@
 			children = (
 				3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */,
 				B7E0A74B4194EC31B13DDD23 /* GeneralSettingsView.swift */,
+				8F5361213D2FCEE2BF73E326 /* HostsSettingsView.swift */,
 				B07BA47EABAAB4A221BB72C0 /* SettingsView.swift */,
 				1C074E46552FBD3B194E8BA9 /* ShellSettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		997B832F7E7A3712D8346D7C /* Hosts */ = {
+			isa = PBXGroup;
+			children = (
+				3DE875635638172C24DE62C0 /* AddHostEntrySheet.swift */,
+				AF58721E3095D5FAE9418AD2 /* AddHostsGroupSheet.swift */,
+				F4A527593E5097505E8FF8E7 /* HostsDetailView.swift */,
+				A66874B7A0E8A1BE0F6997EE /* HostsEmptyStateView.swift */,
+				61E29F2CF1E2F66790DECB97 /* HostsExportImportView.swift */,
+				660C3A0C1E30FC832F310DB6 /* HostsGroupRowView.swift */,
+				05437F729DDA3AB36636F76F /* HostsSidebarView.swift */,
+			);
+			path = Hosts;
+			sourceTree = "<group>";
+		};
 		A3D401B3B76E4FDA5C88423B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				4285C6568734894F42862ED8 /* Constants.swift */,
+				D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */,
 				F0B3E399F2733CD27A0886A7 /* LocalizationManager.swift */,
 				CA8793DF79FA99D705688A8A /* Logger.swift */,
 				889748D1657D798079860077 /* Strings.swift */,
@@ -302,6 +355,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				80BBD8A83CD54E2C519B3047 /* AddGroupSheet.swift in Sources */,
+				6E2EC01B266832FBDE979F20 /* AddHostEntrySheet.swift in Sources */,
+				B3BEF92ED3AA0137AB1C0C67 /* AddHostsGroupSheet.swift in Sources */,
 				04773BE8AE76AB4E8AC1196A /* AddVariableSheet.swift in Sources */,
 				EDDD0EE73F9744B02A1E4A99 /* AppData.swift in Sources */,
 				5F68D0C9F89C9F164E1EA812 /* AppSettings.swift in Sources */,
@@ -318,6 +373,19 @@
 				0BED67052530F880CEEFEB84 /* ExportImportView.swift in Sources */,
 				389278E063DF6849EF0E404C /* GeneralSettingsView.swift in Sources */,
 				1754D5284A8AF79F6A9B58AE /* GroupRowView.swift in Sources */,
+				94F838A143C838E5B2C87FAF /* HostEntry.swift in Sources */,
+				5BE75F3EF61F7BAC27DCF4EA /* HostGroup.swift in Sources */,
+				390083948FD6C19B35F0035B /* HostsConflictDetector.swift in Sources */,
+				D4ED4CAC0531F1C438C8EBEF /* HostsDetailView.swift in Sources */,
+				1A421383F3975019440FD5EB /* HostsEmptyStateView.swift in Sources */,
+				5A790D0573B8D7B069DED8F3 /* HostsExportImportView.swift in Sources */,
+				33D0F33ED7FD628222C5A02F /* HostsFileManager.swift in Sources */,
+				7C254B0B592F5B66D9F2FEFA /* HostsGroupRowView.swift in Sources */,
+				2CE20DD0E493550E14E1E389 /* HostsGroupViewModel.swift in Sources */,
+				DD3326B2B61FC0FF36849E57 /* HostsImportExportManager.swift in Sources */,
+				E44E77F31264B113AF303E89 /* HostsSettingsView.swift in Sources */,
+				43413B0DA4221FC9CF255939 /* HostsSidebarView.swift in Sources */,
+				8722D28F9BFFAEA03DAEB167 /* HostsValidators.swift in Sources */,
 				DD43C62F04476F1CCB50A8E3 /* ImportExportManager.swift in Sources */,
 				1059FA2BEAD25E89C274E886 /* LocalizationManager.swift in Sources */,
 				18C472C80EAB1C4C14B93CC3 /* Logger.swift in Sources */,

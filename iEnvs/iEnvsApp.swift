@@ -3,19 +3,21 @@ import SwiftUI
 @main
 struct iEnvsApp: App {
     @StateObject private var viewModel = EnvGroupViewModel()
+    @StateObject private var hostsViewModel = HostsGroupViewModel()
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(viewModel)
+                .environmentObject(hostsViewModel)
                 .frame(minWidth: 800, minHeight: 500)
                 .onAppear {
                     // 应用已保存的主题设置
                     let settings = DataStore.shared.load().settings
                     NSApp.appearance = settings.theme.nsAppearance
 
-                    appDelegate.setupStatusBar(viewModel: viewModel)
+                    appDelegate.setupStatusBar(viewModel: viewModel, hostsViewModel: hostsViewModel)
                     // Capture and configure main window
                     DispatchQueue.main.async {
                         if appDelegate.mainWindow == nil {
@@ -47,9 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var mainWindow: NSWindow?
     private var settingsWindow: NSWindow?
 
-    func setupStatusBar(viewModel: EnvGroupViewModel) {
+    func setupStatusBar(viewModel: EnvGroupViewModel, hostsViewModel: HostsGroupViewModel) {
         guard statusBarManager == nil else { return }
-        statusBarManager = StatusBarManager(viewModel: viewModel, appDelegate: self)
+        statusBarManager = StatusBarManager(viewModel: viewModel, hostsViewModel: hostsViewModel, appDelegate: self)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleOpenSettings),

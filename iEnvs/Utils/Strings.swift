@@ -292,6 +292,131 @@ enum L10n {
         static var exportImport: String { t([.zh: "导入/导出", .en: "Import/Export"]) }
     }
 
+    // MARK: - Hosts
+
+    enum Hosts {
+        // Tab
+        static var tabEnvVars: String { t([.zh: "环境变量", .en: "Env Variables"]) }
+        static var tabHosts: String { t([.zh: "Hosts", .en: "Hosts"]) }
+
+        // Sidebar
+        static var groups: String { t([.zh: "Hosts 分组", .en: "Hosts Groups"]) }
+        static var addGroup: String { t([.zh: "添加 Hosts 分组", .en: "Add Hosts Group"]) }
+        static var deleteGroup: String { t([.zh: "删除 Hosts 分组", .en: "Delete Hosts Group"]) }
+
+        // Detail
+        static var addEntry: String { t([.zh: "添加条目", .en: "Add Entry"]) }
+        static var addEntryHelp: String { t([.zh: "添加新的 Hosts 条目", .en: "Add a new hosts entry"]) }
+        static var deleteEntryHelp: String { t([.zh: "删除选中的条目", .en: "Delete selected entries"]) }
+        static var filterPlaceholder: String { t([.zh: "过滤条目...", .en: "Filter entries..."]) }
+        static var columnIP: String { t([.zh: "IP 地址", .en: "IP Address"]) }
+        static var columnHostname: String { t([.zh: "主机名", .en: "Hostname"]) }
+        static var columnComment: String { t([.zh: "注释", .en: "Comment"]) }
+        static var columnEnabled: String { t([.zh: "启用", .en: "Enabled"]) }
+        static func entryCount(_ count: Int) -> String {
+            t([.zh: "\(count) 个条目", .en: "\(count) entries"])
+        }
+        static var conflictWarning: String { t([.zh: "此分组存在主机名冲突", .en: "This group has hostname conflicts"]) }
+
+        // Empty State
+        static var noEntries: String { t([.zh: "此分组暂无 Hosts 条目", .en: "No hosts entries in this group"]) }
+        static var addEntryHint: String { t([.zh: "点击 + 按钮添加 Hosts 条目", .en: "Click the + button to add hosts entries"]) }
+
+        // Add Group
+        static var addGroupTitle: String { t([.zh: "添加 Hosts 分组", .en: "Add Hosts Group"]) }
+        static var groupNamePlaceholder: String { t([.zh: "例如：开发环境", .en: "e.g. Dev Environment"]) }
+        static var descriptionPlaceholder: String { t([.zh: "例如：本地开发服务器映射", .en: "e.g. Local dev server mappings"]) }
+
+        // Add Entry
+        static var addEntryTitle: String { t([.zh: "添加 Hosts 条目", .en: "Add Hosts Entry"]) }
+        static var ipAddress: String { t([.zh: "IP 地址", .en: "IP Address"]) }
+        static var ipPlaceholder: String { t([.zh: "例如：127.0.0.1", .en: "e.g. 127.0.0.1"]) }
+        static var hostname: String { t([.zh: "主机名", .en: "Hostname"]) }
+        static var hostnamePlaceholder: String { t([.zh: "例如：dev.local", .en: "e.g. dev.local"]) }
+        static var commentLabel: String { t([.zh: "注释（可选）", .en: "Comment (optional)"]) }
+        static var commentPlaceholder: String { t([.zh: "例如：本地开发服务器", .en: "e.g. Local dev server"]) }
+        static var ipValid: String { t([.zh: "IP 地址有效", .en: "Valid IP address"]) }
+        static var ipInvalid: String { t([.zh: "IP 地址格式不正确", .en: "Invalid IP address format"]) }
+        static var hostnameValid: String { t([.zh: "主机名有效", .en: "Valid hostname"]) }
+        static var hostnameInvalid: String { t([.zh: "主机名格式不正确", .en: "Invalid hostname format"]) }
+        static var hostnameExists: String { t([.zh: "该主机名已存在", .en: "This hostname already exists"]) }
+        static var batchImport: String { t([.zh: "批量导入", .en: "Batch Import"]) }
+        static var batchImportHelp: String { t([.zh: "粘贴标准 hosts 格式", .en: "Paste standard hosts format"]) }
+        static var batchImportTitle: String { t([.zh: "批量导入", .en: "Batch Import"]) }
+        static var batchImportFormat: String { t([.zh: "每行一条，格式: IP 主机名 # 注释", .en: "One entry per line, format: IP HOSTNAME # COMMENT"]) }
+
+        // Settings
+        static var settings: String { t([.zh: "Hosts", .en: "Hosts"]) }
+        static var hostsFilePath: String { t([.zh: "Hosts 文件路径", .en: "Hosts File Path"]) }
+        static var filePermission: String { t([.zh: "文件权限状态", .en: "File Permission Status"]) }
+        static var permissionOK: String { t([.zh: "可读取", .en: "Readable"]) }
+        static var permissionError: String { t([.zh: "无法读取", .en: "Not Readable"]) }
+        static var flushDNS: String { t([.zh: "刷新 DNS 缓存", .en: "Flush DNS Cache"]) }
+        static var flushDNSDesc: String { t([.zh: "立即刷新系统 DNS 缓存，使 Hosts 更改生效", .en: "Immediately flush system DNS cache to apply hosts changes"]) }
+        static var flushDNSSuccess: String { t([.zh: "DNS 缓存已刷新", .en: "DNS cache flushed"]) }
+        static var flushDNSFailed: String { t([.zh: "DNS 缓存刷新失败", .en: "Failed to flush DNS cache"]) }
+
+        // Notifications
+        static func groupAdded(_ name: String) -> String {
+            t([.zh: "已添加 Hosts 分组：\(name)", .en: "Hosts group added: \(name)"])
+        }
+        static func groupDeleted(_ name: String) -> String {
+            t([.zh: "已删除 Hosts 分组：\(name)", .en: "Hosts group deleted: \(name)"])
+        }
+        static func groupUpdated(_ name: String) -> String {
+            t([.zh: "已更新 Hosts 分组：\(name)", .en: "Hosts group updated: \(name)"])
+        }
+        static func groupToggled(enabled: Bool, name: String) -> String {
+            let status = enabled
+                ? t([.zh: "启用", .en: "enabled"])
+                : t([.zh: "禁用", .en: "disabled"])
+            return t([.zh: "已\(status) Hosts 分组：\(name)", .en: "Hosts group \(status): \(name)"])
+        }
+        static func groupDuplicated(_ name: String) -> String {
+            t([.zh: "已复制 Hosts 分组：\(name)", .en: "Hosts group duplicated: \(name)"])
+        }
+        static func entryAdded(_ hostname: String) -> String {
+            t([.zh: "已添加条目：\(hostname)", .en: "Entry added: \(hostname)"])
+        }
+        static func entryDeleted(_ hostname: String) -> String {
+            t([.zh: "已删除条目：\(hostname)", .en: "Entry deleted: \(hostname)"])
+        }
+        static func entryUpdated(_ hostname: String) -> String {
+            t([.zh: "已更新条目：\(hostname)", .en: "Entry updated: \(hostname)"])
+        }
+        static func syncSuccess(_ count: Int) -> String {
+            t([.zh: "已同步 \(count) 个 Hosts 分组到 /etc/hosts", .en: "Synced \(count) hosts groups to /etc/hosts"])
+        }
+        static func syncFailed(_ error: String) -> String {
+            t([.zh: "同步 Hosts 失败：\(error)", .en: "Failed to sync hosts: \(error)"])
+        }
+        static var adminRequired: String { t([.zh: "需要管理员权限来修改 /etc/hosts", .en: "Administrator privileges required to modify /etc/hosts"]) }
+
+        // Conflict
+        static func conflictDescription(hostname: String, groupNames: String) -> String {
+            t([.zh: "主机名 \(hostname) 在以下分组中映射到不同 IP：\(groupNames)",
+               .en: "Hostname \(hostname) maps to different IPs in groups: \(groupNames)"])
+        }
+
+        // Status Bar
+        static var hostsSection: String { t([.zh: "Hosts 分组", .en: "Hosts Groups"]) }
+        static var syncToHosts: String { t([.zh: "同步到 Hosts", .en: "Sync to Hosts"]) }
+        static func hostsGroupInfo(_ name: String, _ count: Int) -> String {
+            t([.zh: "\(name) (\(count)个条目)", .en: "\(name) (\(count) entries)"])
+        }
+
+        // Export/Import
+        static var exportTitle: String { t([.zh: "导出 Hosts", .en: "Export Hosts"]) }
+        static var exportAsJSON: String { t([.zh: "导出为 JSON", .en: "Export as JSON"]) }
+        static var exportAsHosts: String { t([.zh: "导出为 Hosts 格式", .en: "Export as Hosts format"]) }
+        static var importTitle: String { t([.zh: "导入 Hosts", .en: "Import Hosts"]) }
+        static var importFromJSON: String { t([.zh: "从 JSON 导入", .en: "Import from JSON"]) }
+        static var importFromHosts: String { t([.zh: "从 Hosts 文件导入", .en: "Import from Hosts file"]) }
+        static var exportImport: String { t([.zh: "导入/导出 Hosts", .en: "Import/Export Hosts"]) }
+        static var exportDesc: String { t([.zh: "将 Hosts 分组导出为文件", .en: "Export hosts groups to a file"]) }
+        static var importDesc: String { t([.zh: "从文件导入 Hosts 分组", .en: "Import hosts groups from a file"]) }
+    }
+
     // MARK: - App Data
 
     enum AppData {

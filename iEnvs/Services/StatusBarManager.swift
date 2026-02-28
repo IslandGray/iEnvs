@@ -10,11 +10,13 @@ extension Notification.Name {
 final class StatusBarManager: NSObject {
     private var statusItem: NSStatusItem?
     private let viewModel: EnvGroupViewModel
+    private let hostsViewModel: HostsGroupViewModel
     private var cancellables = Set<AnyCancellable>()
     private weak var appDelegate: AppDelegate?
 
-    init(viewModel: EnvGroupViewModel, appDelegate: AppDelegate) {
+    init(viewModel: EnvGroupViewModel, hostsViewModel: HostsGroupViewModel, appDelegate: AppDelegate) {
         self.viewModel = viewModel
+        self.hostsViewModel = hostsViewModel
         self.appDelegate = appDelegate
         super.init()
         setupStatusBar()
@@ -38,6 +40,13 @@ final class StatusBarManager: NSObject {
 
     private func observeChanges() {
         viewModel.objectWillChange
+            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.rebuildMenu()
+            }
+            .store(in: &cancellables)
+
+        hostsViewModel.objectWillChange
             .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
             .sink { [weak self] _ in
                 self?.rebuildMenu()
@@ -79,6 +88,39 @@ final class StatusBarManager: NSObject {
                 let item = NSMenuItem(
                     title: title,
                     action: #selector(toggleGroupAction(_:)),
+                    keyEquivalent: ""
+                )
+                item.target = self
+                item.state = group.isEnabled ? .on : .off
+                item.representedObject = group.id
+                menu.addItem(item)
+            }
+        }
+
+        menu.addItem(NSMenuItem.separator())
+
+        // Hosts Groups
+        let hostsHeaderItem = NSMenuItem(title: L10n.Hosts.hostsSection, action: nil, keyEquivalent: "")
+        hostsHeaderItem.attributedTitle = NSAttributedString(
+            string: L10n.Hosts.hostsSection,
+            attributes: [.font: NSFont.boldSystemFont(ofSize: 11)]
+        )
+        hostsHeaderItem.isEnabled = false
+        menu.addItem(hostsHeaderItem)
+
+        if hostsViewModel.hostsGroups.isEmpty {
+            let emptyItem = NSMenuItem(title: L10n.StatusBar.noGroups, action: nil, keyEquivalent: "")
+            emptyItem.isEnabled = false
+            menu.addItem(emptyItem)
+        } else {
+            for group in hostsViewModel.hostsGroups {
+                let hasConflict = hostsViewModel.hasConflict(groupId: group.id)
+                let conflictMark = hasConflict ? " ⚠️" : ""
+                let title = "\(L10n.Hosts.hostsGroupInfo(group.name, group.entries.count))\(conflictMark)"
+
+                let item = NSMenuItem(
+                    title: title,
+                    action: #selector(toggleHostsGroupAction(_:)),
                     keyEquivalent: ""
                 )
                 item.target = self
@@ -156,9 +198,15 @@ final class StatusBarManager: NSObject {
         viewModel.toggleGroup(id: groupId)
     }
 
+    @objc private func toggleHostsGroupAction(_ sender: NSMenuItem) {
+        guard let groupId = sender.representedObject as? UUID else { return }
+        hostsViewModel.toggleHostsGroup(id: groupId)
+    }
+
     @objc private func syncShellConfig() {
         // Trigger a save which syncs shell config
         viewModel.saveData()
+        hostsViewModel.syncHostsFile()
     }
 
     @objc private func openMainWindow() {

@@ -23,8 +23,14 @@ struct SettingsView: View {
                     Label(L10n.Settings.backup, systemImage: "clock.arrow.circlepath")
                 }
                 .tag(2)
+
+            HostsSettingsView()
+                .tabItem {
+                    Label(L10n.Hosts.settings, systemImage: "network")
+                }
+                .tag(3)
         }
-        .frame(width: 600, height: 400)
+        .frame(width: 600, height: 450)
         .onChange(of: settingsVM.settings) { _ in
             settingsVM.saveSettings()
         }
