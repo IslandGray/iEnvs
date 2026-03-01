@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		020706D1D45E6E5B186A9F6C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1D2DDAA2A902A62278D24 /* MainView.swift */; };
 		04773BE8AE76AB4E8AC1196A /* AddVariableSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069B51493B449D885B24BEA /* AddVariableSheet.swift */; };
+		0BDA39C1FD94FCB73E89913B /* MigrateHostDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03A85B6CC3A96ED6DBBA772 /* MigrateHostDialog.swift */; };
 		0BED67052530F880CEEFEB84 /* ExportImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C7706DDD9203F80118EF2F /* ExportImportView.swift */; };
 		0EF4269F1ADDEB3571E53C83 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0EE241736CE73EA0ACD5C3 /* SearchBar.swift */; };
 		1059FA2BEAD25E89C274E886 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B3E399F2733CD27A0886A7 /* LocalizationManager.swift */; };
@@ -27,6 +28,7 @@
 		4C2856673628358B4B472993 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07BA47EABAAB4A221BB72C0 /* SettingsView.swift */; };
 		56FCE5601ADBBD4C798E0F8A /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC366651DBC36B2B5F9EE606 /* Validators.swift */; };
 		5A790D0573B8D7B069DED8F3 /* HostsExportImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E29F2CF1E2F66790DECB97 /* HostsExportImportView.swift */; };
+		5BA720AB4C4CB9391A1FFD1B /* ExistingEnvVariablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC246384300CDD03797CE574 /* ExistingEnvVariablesView.swift */; };
 		5BE75F3EF61F7BAC27DCF4EA /* HostGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48777EE47B4887124EBE0405 /* HostGroup.swift */; };
 		5F68D0C9F89C9F164E1EA812 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09594B151A730636FCC085B /* AppSettings.swift */; };
 		6E2EC01B266832FBDE979F20 /* AddHostEntrySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE875635638172C24DE62C0 /* AddHostEntrySheet.swift */; };
@@ -34,6 +36,7 @@
 		7C254B0B592F5B66D9F2FEFA /* HostsGroupRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660C3A0C1E30FC832F310DB6 /* HostsGroupRowView.swift */; };
 		8072CDAEE7ABCF3FDDF0B8FF /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7176BE35BFAEBFA27DAA3F8 /* SettingsViewModel.swift */; };
 		80BBD8A83CD54E2C519B3047 /* AddGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B6B5FE4B62601FA9A36DDB /* AddGroupSheet.swift */; };
+		8423AC3DA5401F8ABFEA8872 /* ExistingHostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6E9E3C0202195B9110FF50 /* ExistingHostsView.swift */; };
 		866ABFED73CFA4F902E8C372 /* EnvVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85479320D2B41F0770B4104A /* EnvVariable.swift */; };
 		8722D28F9BFFAEA03DAEB167 /* HostsValidators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */; };
 		87A0431D18C3B387DF4924BF /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */; };
@@ -51,6 +54,7 @@
 		C5B689C77751FBF020665655 /* StatusBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4775C509D384E6E29E4096CB /* StatusBarManager.swift */; };
 		CFB3A5C3BA5F40D25ACFC188 /* EnvGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */; };
 		D4ED4CAC0531F1C438C8EBEF /* HostsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A527593E5097505E8FF8E7 /* HostsDetailView.swift */; };
+		DC89F235558272A660BDBE81 /* MigrateVariableDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4546532479C074A121FB4D4C /* MigrateVariableDialog.swift */; };
 		DD3326B2B61FC0FF36849E57 /* HostsImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC812B5F8BBE815974139A1 /* HostsImportExportManager.swift */; };
 		DD43C62F04476F1CCB50A8E3 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50649602EB0F137BFBA68321 /* ImportExportManager.swift */; };
 		E44E77F31264B113AF303E89 /* HostsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5361213D2FCEE2BF73E326 /* HostsSettingsView.swift */; };
@@ -72,6 +76,7 @@
 		3C4561ADF188A3D867686E42 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		3DE875635638172C24DE62C0 /* AddHostEntrySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHostEntrySheet.swift; sourceTree = "<group>"; };
 		4285C6568734894F42862ED8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4546532479C074A121FB4D4C /* MigrateVariableDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrateVariableDialog.swift; sourceTree = "<group>"; };
 		4775C509D384E6E29E4096CB /* StatusBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarManager.swift; sourceTree = "<group>"; };
 		48777EE47B4887124EBE0405 /* HostGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostGroup.swift; sourceTree = "<group>"; };
 		50649602EB0F137BFBA68321 /* ImportExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
@@ -89,6 +94,7 @@
 		8F5361213D2FCEE2BF73E326 /* HostsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsSettingsView.swift; sourceTree = "<group>"; };
 		961CA2FA681C35772F9DE46A /* HostEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostEntry.swift; sourceTree = "<group>"; };
 		9F9E4B326BE844F874226858 /* VariableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableRowView.swift; sourceTree = "<group>"; };
+		A03A85B6CC3A96ED6DBBA772 /* MigrateHostDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrateHostDialog.swift; sourceTree = "<group>"; };
 		A09594B151A730636FCC085B /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A66874B7A0E8A1BE0F6997EE /* HostsEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsEmptyStateView.swift; sourceTree = "<group>"; };
 		A7176BE35BFAEBFA27DAA3F8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -98,12 +104,14 @@
 		B07BA47EABAAB4A221BB72C0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B7E0A74B4194EC31B13DDD23 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
 		BA39F405DBD2468743EDCDA9 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		BC246384300CDD03797CE574 /* ExistingEnvVariablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingEnvVariablesView.swift; sourceTree = "<group>"; };
 		C46B455D97B2237230578DA9 /* iEnvs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iEnvs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C746AE7A5A01EDEF9CA77FAE /* iEnvsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iEnvsApp.swift; sourceTree = "<group>"; };
 		C7B6B5FE4B62601FA9A36DDB /* AddGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupSheet.swift; sourceTree = "<group>"; };
 		CA8793DF79FA99D705688A8A /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CC366651DBC36B2B5F9EE606 /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
 		D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsValidators.swift; sourceTree = "<group>"; };
+		DB6E9E3C0202195B9110FF50 /* ExistingHostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingHostsView.swift; sourceTree = "<group>"; };
 		E3BE8DFAA9BAAE7CD3FBC4A2 /* EnvGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvGroup.swift; sourceTree = "<group>"; };
 		EA11D47659FA09B9B64C730E /* iEnvs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iEnvs.entitlements; sourceTree = "<group>"; };
 		EF9EE3AB8C4AFA6AF3DDE3E8 /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
@@ -154,6 +162,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		5D40C977A93EDBFAB00977B9 /* Existing */ = {
+			isa = PBXGroup;
+			children = (
+				BC246384300CDD03797CE574 /* ExistingEnvVariablesView.swift */,
+				DB6E9E3C0202195B9110FF50 /* ExistingHostsView.swift */,
+			);
+			path = Existing;
+			sourceTree = "<group>";
+		};
 		7FE5A7416E243F910EBC6B15 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +178,7 @@
 				F7DA959FB657BA2B0ADCA8C1 /* Components */,
 				E5D943ACFBB9ABAFD63932CC /* Detail */,
 				C3C4A7BF4D742613DC3B0283 /* Dialogs */,
+				5D40C977A93EDBFAB00977B9 /* Existing */,
 				997B832F7E7A3712D8346D7C /* Hosts */,
 				9645D749D0E79D9D6D43EC70 /* Settings */,
 				BA77ED16F605A62F10517EA5 /* Sidebar */,
@@ -261,6 +279,8 @@
 			children = (
 				C7B6B5FE4B62601FA9A36DDB /* AddGroupSheet.swift */,
 				00C7706DDD9203F80118EF2F /* ExportImportView.swift */,
+				A03A85B6CC3A96ED6DBBA772 /* MigrateHostDialog.swift */,
+				4546532479C074A121FB4D4C /* MigrateVariableDialog.swift */,
 			);
 			path = Dialogs;
 			sourceTree = "<group>";
@@ -370,6 +390,8 @@
 				CFB3A5C3BA5F40D25ACFC188 /* EnvGroup.swift in Sources */,
 				ECF5CCAEA64247E12C1571ED /* EnvGroupViewModel.swift in Sources */,
 				866ABFED73CFA4F902E8C372 /* EnvVariable.swift in Sources */,
+				5BA720AB4C4CB9391A1FFD1B /* ExistingEnvVariablesView.swift in Sources */,
+				8423AC3DA5401F8ABFEA8872 /* ExistingHostsView.swift in Sources */,
 				0BED67052530F880CEEFEB84 /* ExportImportView.swift in Sources */,
 				389278E063DF6849EF0E404C /* GeneralSettingsView.swift in Sources */,
 				1754D5284A8AF79F6A9B58AE /* GroupRowView.swift in Sources */,
@@ -390,6 +412,8 @@
 				1059FA2BEAD25E89C274E886 /* LocalizationManager.swift in Sources */,
 				18C472C80EAB1C4C14B93CC3 /* Logger.swift in Sources */,
 				020706D1D45E6E5B186A9F6C /* MainView.swift in Sources */,
+				0BDA39C1FD94FCB73E89913B /* MigrateHostDialog.swift in Sources */,
+				DC89F235558272A660BDBE81 /* MigrateVariableDialog.swift in Sources */,
 				0EF4269F1ADDEB3571E53C83 /* SearchBar.swift in Sources */,
 				4C2856673628358B4B472993 /* SettingsView.swift in Sources */,
 				8072CDAEE7ABCF3FDDF0B8FF /* SettingsViewModel.swift in Sources */,
@@ -444,6 +468,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2503011150;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -462,6 +487,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -543,6 +569,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2503011150;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -555,6 +582,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = iEnvs;

@@ -10,10 +10,11 @@ final class HostsGroupViewModel: ObservableObject {
     @Published var hostsConflicts: [HostsConflictInfo] = []
     @Published var showNotification: Bool = false
     @Published var notificationMessage: String = ""
+    @Published var existingHosts: [(entry: HostEntry, lineNumber: Int)] = []
 
     // MARK: - Dependencies
     private let dataStore = DataStore.shared
-    private let hostsFileManager = HostsFileManager()
+    let hostsFileManager = HostsFileManager()
     private let conflictDetector = HostsConflictDetector()
 
     // MARK: - Computed Properties
@@ -45,7 +46,77 @@ final class HostsGroupViewModel: ObservableObject {
     func loadData() {
         let appData = dataStore.load()
         hostsGroups = appData.hostsGroups.sorted { $0.order < $1.order }
+        loadExistingHosts()
         refreshHostsConflicts()
+    }
+
+    // MARK: - Existing Hosts Management
+
+    /// 加载非iEnvs管理的hosts条目
+    func loadExistingHosts() {
+        existingHosts = hostsFileManager.parseExistingHosts()
+    }
+
+    /// 将现有hosts迁移到iEnvs管理
+    func migrateExistingHost(
+        _ hostTuple: (entry: HostEntry, lineNumber: Int),
+        newIp: String? = nil,
+        newHostname: String? = nil,
+        targetGroupId: UUID? = nil,
+        newGroupName: String? = nil
+    ) {
+        let finalIp = newIp ?? hostTuple.entry.ip
+        let finalHostname = newHostname ?? hostTuple.entry.hostname
+
+        do {
+            // 1. 先从原hosts文件中删除
+            try hostsFileManager.removeHostsLine(lineNumber: hostTuple.lineNumber)
+
+            // 2. 确定目标分组
+            let groupId: UUID
+            if let targetId = targetGroupId,
+               hostsGroups.firstIndex(where: { $0.id == targetId }) != nil {
+                groupId = targetId
+            } else {
+                // 创建新分组
+                let name = newGroupName ?? L10n.Existing.hostsDefaultGroupName
+                addHostsGroup(name: name, description: L10n.Existing.hostsGroupDescription)
+                groupId = hostsGroups.last?.id ?? UUID()
+            }
+
+            // 3. 添加到iEnvs管理
+            addHostEntry(
+                to: groupId,
+                ip: finalIp,
+                hostname: finalHostname,
+                comment: hostTuple.entry.comment
+            )
+
+            // 4. 刷新现有hosts列表
+            loadExistingHosts()
+
+            notificationMessage = L10n.Existing.hostsMigrateSuccess(finalHostname)
+            showNotification = true
+        } catch {
+            notificationMessage = L10n.Existing.hostsMigrateFailed(finalHostname, error.localizedDescription)
+            showNotification = true
+        }
+    }
+
+    /// 删除现有hosts条目（直接从原文件删除）
+    func deleteExistingHost(_ hostTuple: (entry: HostEntry, lineNumber: Int)) {
+        do {
+            try hostsFileManager.removeHostsLine(lineNumber: hostTuple.lineNumber)
+
+            // 刷新列表
+            loadExistingHosts()
+
+            notificationMessage = L10n.Existing.hostsDeleteSuccess(hostTuple.entry.hostname)
+            showNotification = true
+        } catch {
+            notificationMessage = L10n.Existing.hostsDeleteFailed(hostTuple.entry.hostname, error.localizedDescription)
+            showNotification = true
+        }
     }
 
     func saveData() {

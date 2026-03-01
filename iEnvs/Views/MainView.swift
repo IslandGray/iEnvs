@@ -26,6 +26,8 @@ struct MainView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var showExportImport: Bool = false
     @State private var showHostsExportImport: Bool = false
+    @State private var showExistingVariables: Bool = false
+    @State private var showExistingHosts: Bool = false
     @State private var selectedTab: ManageTab = .envVars
 
     var body: some View {
@@ -76,6 +78,24 @@ struct MainView: View {
         )
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
+                // 导入现有配置按钮
+                Button(action: {
+                    if selectedTab == .envVars {
+                        showExistingVariables = true
+                    } else {
+                        showExistingHosts = true
+                    }
+                }) {
+                    let count = selectedTab == .envVars
+                        ? viewModel.existingVariables.count
+                        : hostsViewModel.existingHosts.count
+                    Label(
+                        L10n.MainView.existingConfig(count),
+                        systemImage: count > 0 ? "exclamationmark.triangle" : "doc.text.magnifyingglass"
+                    )
+                }
+                .disabled(selectedTab == .envVars ? false : !hostsViewModel.hostsFileManager.isHostsFileReadable())
+
                 Button(action: {
                     if selectedTab == .envVars {
                         showExportImport = true
@@ -93,6 +113,14 @@ struct MainView: View {
         }
         .sheet(isPresented: $showHostsExportImport) {
             HostsExportImportView(isPresented: $showHostsExportImport)
+                .environmentObject(hostsViewModel)
+        }
+        .sheet(isPresented: $showExistingVariables) {
+            ExistingEnvVariablesView(isPresented: $showExistingVariables)
+                .environmentObject(viewModel)
+        }
+        .sheet(isPresented: $showExistingHosts) {
+            ExistingHostsView(isPresented: $showExistingHosts)
                 .environmentObject(hostsViewModel)
         }
         .onAppear {

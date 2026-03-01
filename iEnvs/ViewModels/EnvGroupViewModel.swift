@@ -10,6 +10,7 @@ final class EnvGroupViewModel: ObservableObject {
     @Published var conflicts: [ConflictInfo] = []
     @Published var showNotification: Bool = false
     @Published var notificationMessage: String = ""
+    @Published var existingVariables: [ParsedExportVariable] = []
 
     // MARK: - Dependencies
     private let dataStore = DataStore.shared
@@ -45,7 +46,84 @@ final class EnvGroupViewModel: ObservableObject {
     func loadData() {
         let appData = dataStore.load()
         groups = appData.groups.sorted { $0.order < $1.order }
+        loadExistingVariables()
         refreshConflicts()
+    }
+
+    // MARK: - Existing Variables Management
+
+    /// 加载非iEnvs管理的环境变量
+    func loadExistingVariables() {
+        let settings = dataStore.load().settings
+        existingVariables = shellConfigManager.parseExistingExports(shellType: settings.shellType)
+    }
+
+    /// 将现有变量迁移到iEnvs管理（修改时调用）
+    /// - Parameters:
+    ///   - variable: 要迁移的变量
+    ///   - newValue: 新值（如果为nil则保持原值）
+    ///   - targetGroupId: 目标分组ID（如果为nil则创建新分组）
+    ///   - newGroupName: 新分组名称（当targetGroupId为nil时使用）
+    func migrateExistingVariable(
+        _ variable: ParsedExportVariable,
+        newValue: String? = nil,
+        targetGroupId: UUID? = nil,
+        newGroupName: String? = nil
+    ) {
+        let finalValue = newValue ?? variable.value
+
+        do {
+            // 1. 先从原配置文件中删除
+            let settings = dataStore.load().settings
+            try shellConfigManager.removeExportLine(
+                lineNumber: variable.lineNumber,
+                shellType: settings.shellType
+            )
+
+            // 2. 确定目标分组
+            let groupId: UUID
+            if let targetId = targetGroupId,
+               groups.firstIndex(where: { $0.id == targetId }) != nil {
+                groupId = targetId
+            } else {
+                // 创建新分组
+                let name = newGroupName ?? L10n.Existing.defaultGroupName
+                addGroup(name: name, description: L10n.Existing.groupDescription)
+                groupId = groups.last?.id ?? UUID()
+            }
+
+            // 3. 添加到iEnvs管理
+            addVariable(to: groupId, key: variable.key, value: finalValue)
+
+            // 4. 刷新现有变量列表
+            loadExistingVariables()
+
+            notificationMessage = L10n.Existing.migrateSuccess(variable.key)
+            showNotification = true
+        } catch {
+            notificationMessage = L10n.Existing.migrateFailed(variable.key, error.localizedDescription)
+            showNotification = true
+        }
+    }
+
+    /// 删除现有变量（直接从原文件删除）
+    func deleteExistingVariable(_ variable: ParsedExportVariable) {
+        do {
+            let settings = dataStore.load().settings
+            try shellConfigManager.removeExportLine(
+                lineNumber: variable.lineNumber,
+                shellType: settings.shellType
+            )
+
+            // 刷新列表
+            loadExistingVariables()
+
+            notificationMessage = L10n.Existing.deleteSuccess(variable.key)
+            showNotification = true
+        } catch {
+            notificationMessage = L10n.Existing.deleteFailed(variable.key, error.localizedDescription)
+            showNotification = true
+        }
     }
 
     func saveData() {

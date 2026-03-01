@@ -53,17 +53,20 @@ final class HostsFileManager {
         try executeAppleScript(script)
     }
 
-    /// 解析 /etc/hosts 中非管理区域的现有条目（只读展示）
-    func parseExistingHosts() -> [HostEntry] {
+    /// 解析 /etc/hosts 中非管理区域的现有条目
+    func parseExistingHosts() -> [(entry: HostEntry, lineNumber: Int)] {
         guard let content = try? String(contentsOfFile: hostsPath, encoding: .utf8) else {
             return []
         }
 
         let lines = content.components(separatedBy: .newlines)
-        var entries: [HostEntry] = []
+        var entries: [(entry: HostEntry, lineNumber: Int)] = []
         var inManagedSection = false
+        var lineNumber = 0
 
         for line in lines {
+            lineNumber += 1
+
             if line.contains(Marker.sectionStart) {
                 inManagedSection = true
                 continue
@@ -75,12 +78,42 @@ final class HostsFileManager {
 
             if !inManagedSection {
                 if let entry = parseHostsLine(line) {
-                    entries.append(entry)
+                    entries.append((entry, lineNumber))
                 }
             }
         }
 
         return entries
+    }
+
+    /// 从 /etc/hosts 中删除指定行
+    func removeHostsLine(lineNumber: Int) throws {
+        // 备份原文件（使用管理员权限复制）
+        let backupScript = """
+        do shell script "cp '\(hostsPath)' '\(hostsPath).backup.\(Int(Date().timeIntervalSince1970))'" with administrator privileges
+        """
+        try executeAppleScript(backupScript)
+
+        guard let content = try? String(contentsOfFile: hostsPath, encoding: .utf8) else {
+            throw HostsFileError.fileNotFound
+        }
+
+        var lines = content.components(separatedBy: .newlines)
+
+        // 验证行号范围
+        guard lineNumber > 0 && lineNumber <= lines.count else {
+            throw HostsFileError.invalidLineNumber(lineNumber)
+        }
+
+        // 删除指定行
+        lines.remove(at: lineNumber - 1)
+
+        // 写回文件
+        let newContent = lines.joined(separator: "\n")
+        try writeWithPrivilege(content: newContent, to: hostsPath)
+
+        // 刷新DNS缓存
+        try flushDNSCache()
     }
 
     /// 检查 hosts 文件是否可读
@@ -208,14 +241,16 @@ final class HostsFileManager {
             ? commentSplit.dropFirst().joined(separator: "#").trimmingCharacters(in: .whitespaces)
             : ""
 
-        // 分离 IP 和 hostname
-        let parts = mainPart.split(separator: " ", omittingEmptySubsequences: true)
-            .map { String($0).trimmingCharacters(in: .whitespaces) }
+        // 分离 IP 和 hostname（使用 whitespaces 处理空格和制表符）
+        let parts = mainPart.components(separatedBy: .whitespaces)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
 
         guard parts.count >= 2 else { return nil }
 
         let ip = parts[0]
-        let hostname = parts[1]
+        // 合并所有剩余部分作为主机名（处理多个主机名或包含空格的情况）
+        let hostname = parts.dropFirst().joined(separator: " ")
 
         return HostEntry(
             ip: ip,
@@ -230,6 +265,8 @@ final class HostsFileManager {
 enum HostsFileError: LocalizedError {
     case scriptCreationFailed
     case scriptExecutionFailed(String)
+    case fileNotFound
+    case invalidLineNumber(Int)
 
     var errorDescription: String? {
         switch self {
@@ -237,6 +274,10 @@ enum HostsFileError: LocalizedError {
             return "Failed to create AppleScript"
         case .scriptExecutionFailed(let message):
             return message
+        case .fileNotFound:
+            return "找不到 hosts 文件"
+        case .invalidLineNumber(let line):
+            return "无效的行号: \(line)"
         }
     }
 }

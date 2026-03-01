@@ -1,5 +1,15 @@
 import Foundation
 
+/// 解析出的环境变量结构
+struct ParsedExportVariable: Identifiable, Equatable {
+    let id = UUID()
+    let key: String
+    let value: String
+    let rawLine: String
+    let lineNumber: Int
+    let isInManagedSection: Bool
+}
+
 final class ShellConfigManager {
     // MARK: - Constants
     private enum Marker {
@@ -68,6 +78,143 @@ final class ShellConfigManager {
         let newContent = replaceManagedSection(in: originalContent, with: managedSection)
 
         // 5. 写回文件
+        try newContent.write(toFile: configPath, atomically: true, encoding: .utf8)
+    }
+
+    // MARK: - Parse Existing Exports
+
+    /// 解析现有shell配置文件中的非管理export语句
+    func parseExistingExports(shellType: ShellType) -> [ParsedExportVariable] {
+        let configPath = ShellConfigManager.getConfigFilePath(for: shellType)
+
+        guard fileManager.fileExists(atPath: configPath),
+              let content = try? String(contentsOfFile: configPath, encoding: .utf8) else {
+            return []
+        }
+
+        let lines = content.components(separatedBy: .newlines)
+        var variables: [ParsedExportVariable] = []
+        var inManagedSection = false
+        var lineNumber = 0
+
+        for line in lines {
+            lineNumber += 1
+
+            // 检测管理区域边界
+            if line.contains(Marker.sectionStart) {
+                inManagedSection = true
+                continue
+            }
+            if line.contains(Marker.sectionEnd) {
+                inManagedSection = false
+                continue
+            }
+
+            // 解析export语句
+            if let variable = parseExportLine(line, lineNumber: lineNumber, isInManagedSection: inManagedSection) {
+                // 只返回非管理区域的变量
+                if !inManagedSection {
+                    variables.append(variable)
+                }
+            }
+        }
+
+        return variables
+    }
+
+    /// 解析单行export语句
+    private func parseExportLine(_ line: String, lineNumber: Int, isInManagedSection: Bool) -> ParsedExportVariable? {
+        let trimmed = line.trimmingCharacters(in: .whitespaces)
+
+        // 必须以export开头
+        guard trimmed.hasPrefix("export ") else {
+            return nil
+        }
+
+        // 提取 export 后的内容
+        let exportContent = String(trimmed.dropFirst(7)).trimmingCharacters(in: .whitespaces)
+
+        // 找到第一个等号的位置
+        guard let equalIndex = exportContent.firstIndex(of: "=") else {
+            return nil
+        }
+
+        let key = String(exportContent[..<equalIndex]).trimmingCharacters(in: .whitespaces)
+        var value = String(exportContent[exportContent.index(after: equalIndex)...]).trimmingCharacters(in: .whitespaces)
+
+        // 验证key格式
+        guard isValidKey(key) else {
+            return nil
+        }
+
+        // 处理引号
+        value = unquoteValue(value)
+
+        return ParsedExportVariable(
+            key: key,
+            value: value,
+            rawLine: line,
+            lineNumber: lineNumber,
+            isInManagedSection: isInManagedSection
+        )
+    }
+
+    /// 验证环境变量名格式
+    private func isValidKey(_ key: String) -> Bool {
+        let pattern = "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+            return false
+        }
+        let range = NSRange(key.startIndex..., in: key)
+        return regex.firstMatch(in: key, options: [], range: range) != nil
+    }
+
+    /// 去除值的引号
+    private func unquoteValue(_ value: String) -> String {
+        var result = value
+
+        // 处理双引号
+        if result.hasPrefix("\"") && result.hasSuffix("\"") && result.count > 1 {
+            result = String(result.dropFirst().dropLast())
+            // 处理转义字符
+            result = result.replacingOccurrences(of: "\\\"", with: "\"")
+            result = result.replacingOccurrences(of: "\\\\", with: "\\")
+            result = result.replacingOccurrences(of: "\\$", with: "$")
+            result = result.replacingOccurrences(of: "\\`", with: "`")
+        }
+        // 处理单引号
+        else if result.hasPrefix("'") && result.hasSuffix("'") && result.count > 1 {
+            result = String(result.dropFirst().dropLast())
+        }
+
+        return result
+    }
+
+    // MARK: - Remove Existing Export
+
+    /// 从shell配置文件中删除指定行
+    func removeExportLine(lineNumber: Int, shellType: ShellType) throws {
+        let configPath = ShellConfigManager.getConfigFilePath(for: shellType)
+
+        // 备份原文件
+        try BackupManager.shared.backup(filePath: configPath)
+
+        guard let content = try? String(contentsOfFile: configPath, encoding: .utf8) else {
+            throw ShellConfigError.fileNotFound(configPath)
+        }
+
+        var lines = content.components(separatedBy: .newlines)
+
+        // 验证行号范围
+        guard lineNumber > 0 && lineNumber <= lines.count else {
+            throw ShellConfigError.invalidLineNumber(lineNumber)
+        }
+
+        // 删除指定行（lineNumber是1-based）
+        lines.remove(at: lineNumber - 1)
+
+        // 写回文件
+        let newContent = lines.joined(separator: "\n")
         try newContent.write(toFile: configPath, atomically: true, encoding: .utf8)
     }
 
@@ -156,5 +303,21 @@ final class ShellConfigManager {
         }
 
         return result.joined(separator: "\n")
+    }
+}
+
+// MARK: - Error Types
+
+enum ShellConfigError: LocalizedError {
+    case fileNotFound(String)
+    case invalidLineNumber(Int)
+
+    var errorDescription: String? {
+        switch self {
+        case .fileNotFound(let path):
+            return "找不到配置文件: \(path)"
+        case .invalidLineNumber(let line):
+            return "无效的行号: \(line)"
+        }
     }
 }

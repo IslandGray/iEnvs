@@ -290,6 +290,13 @@ enum L10n {
     enum MainView {
         static var searchPrompt: String { t([.zh: "搜索分组或变量", .en: "Search groups or variables"]) }
         static var exportImport: String { t([.zh: "导入/导出", .en: "Import/Export"]) }
+        static func existingConfig(_ count: Int) -> String {
+            if count > 0 {
+                return t([.zh: "检测配置 (\(count))", .en: "Detect Config (\(count))"])
+            } else {
+                return t([.zh: "检测配置", .en: "Detect Config"])
+            }
+        }
     }
 
     // MARK: - Hosts
@@ -422,5 +429,110 @@ enum L10n {
     enum AppData {
         static var sampleGroupName: String { t([.zh: "示例分组", .en: "Sample Group"]) }
         static var sampleGroupDesc: String { t([.zh: "这是一个示例分组，你可以删除它", .en: "This is a sample group, you can delete it"]) }
+    }
+
+    // MARK: - Existing Config Import
+
+    enum Existing {
+        // Titles
+        static var title: String { t([.zh: "检测到的环境变量", .en: "Detected Environment Variables"]) }
+        static var hostsTitle: String { t([.zh: "检测到的 Hosts 条目", .en: "Detected Hosts Entries"]) }
+
+        // Subtitles
+        static func subtitle(_ count: Int) -> String {
+            t([.zh: "发现 \(count) 个非 iEnvs 管理的配置", .en: "Found \(count) non-iEnvs managed configurations"])
+        }
+        static func hostsSubtitle(_ count: Int) -> String {
+            t([.zh: "发现 \(count) 个非 iEnvs 管理的条目", .en: "Found \(count) non-iEnvs managed entries"])
+        }
+
+        // Empty states
+        static var emptyTitle: String { t([.zh: "未发现未管理的配置", .en: "No unmanaged configurations found"]) }
+        static var emptyMessage: String { t([.zh: "所有环境变量都已在 iEnvs 管理中，\n或者配置文件中没有 export 语句。", .en: "All environment variables are managed by iEnvs,\nor no export statements found in config file."]) }
+        static var hostsEmptyTitle: String { t([.zh: "未发现未管理的条目", .en: "No unmanaged entries found"]) }
+        static var hostsEmptyMessage: String { t([.zh: "所有 Hosts 条目都已在 iEnvs 管理中，\n或者 /etc/hosts 文件中没有自定义条目。", .en: "All hosts entries are managed by iEnvs,\nor no custom entries found in /etc/hosts."]) }
+
+        // Actions
+        static var editMigrate: String { t([.zh: "编辑并迁移", .en: "Edit & Migrate"]) }
+
+        // Line number
+        static func lineNumber(_ number: Int) -> String {
+            t([.zh: "第 \(number) 行", .en: "Line \(number)"])
+        }
+
+        // Delete confirmation
+        static var deleteConfirmTitle: String { t([.zh: "确认删除", .en: "Confirm Delete"]) }
+        static func deleteConfirmMessage(_ key: String) -> String {
+            t([.zh: "确定要从配置文件中永久删除变量「\(key)」吗？此操作不可撤销。", .en: "Are you sure you want to permanently delete variable \"\(key)\" from the config file? This action cannot be undone."])
+        }
+        static var hostsDeleteConfirmTitle: String { t([.zh: "确认删除", .en: "Confirm Delete"]) }
+        static func hostsDeleteConfirmMessage(_ hostname: String) -> String {
+            t([.zh: "确定要从 /etc/hosts 中永久删除「\(hostname)」吗？此操作不可撤销。", .en: "Are you sure you want to permanently delete \"\(hostname)\" from /etc/hosts? This action cannot be undone."])
+        }
+
+        // Notifications
+        static func migrateSuccess(_ key: String) -> String {
+            t([.zh: "已迁移变量：\(key)", .en: "Migrated variable: \(key)"])
+        }
+        static func migrateFailed(_ key: String, _ error: String) -> String {
+            t([.zh: "迁移变量 \(key) 失败：\(error)", .en: "Failed to migrate variable \(key): \(error)"])
+        }
+        static func deleteSuccess(_ key: String) -> String {
+            t([.zh: "已删除变量：\(key)", .en: "Deleted variable: \(key)"])
+        }
+        static func deleteFailed(_ key: String, _ error: String) -> String {
+            t([.zh: "删除变量 \(key) 失败：\(error)", .en: "Failed to delete variable \(key): \(error)"])
+        }
+        static func hostsMigrateSuccess(_ hostname: String) -> String {
+            t([.zh: "已迁移 Hosts：\(hostname)", .en: "Migrated hosts: \(hostname)"])
+        }
+        static func hostsMigrateFailed(_ hostname: String, _ error: String) -> String {
+            t([.zh: "迁移 Hosts \(hostname) 失败：\(error)", .en: "Failed to migrate hosts \(hostname): \(error)"])
+        }
+        static func hostsDeleteSuccess(_ hostname: String) -> String {
+            t([.zh: "已删除 Hosts：\(hostname)", .en: "Deleted hosts: \(hostname)"])
+        }
+        static func hostsDeleteFailed(_ hostname: String, _ error: String) -> String {
+            t([.zh: "删除 Hosts \(hostname) 失败：\(error)", .en: "Failed to delete hosts \(hostname): \(error)"])
+        }
+
+        // Group names
+        static var defaultGroupName: String { t([.zh: "导入的环境变量", .en: "Imported Variables"]) }
+        static var groupDescription: String { t([.zh: "从配置文件导入", .en: "Imported from config file"]) }
+        static var hostsDefaultGroupName: String { t([.zh: "导入的 Hosts", .en: "Imported Hosts"]) }
+        static var hostsGroupDescription: String { t([.zh: "从 /etc/hosts 导入", .en: "Imported from /etc/hosts"]) }
+    }
+
+    // MARK: - Migrate Dialog
+
+    enum Migrate {
+        static var title: String { t([.zh: "迁移到 iEnvs 管理", .en: "Migrate to iEnvs Management"]) }
+        static var hostsTitle: String { t([.zh: "迁移到 iEnvs 管理", .en: "Migrate to iEnvs Management"]) }
+
+        // Warning
+        static var warningMessage: String { t([.zh: "此操作会将该环境变量纳入 iEnvs 管理，并从原配置文件 (.zshrc/.bashrc) 中删除原配置。", .en: "This action will bring this environment variable under iEnvs management and remove the original configuration from the config file (.zshrc/.bashrc)."]) }
+        static var hostsWarningMessage: String { t([.zh: "此操作会将该 Hosts 条目纳入 iEnvs 管理，并从 /etc/hosts 中删除原配置。", .en: "This action will bring this hosts entry under iEnvs management and remove the original configuration from /etc/hosts."]) }
+
+        // Labels
+        static var keyLabel: String { t([.zh: "变量名", .en: "Variable"]) }
+        static var currentValueLabel: String { t([.zh: "当前值", .en: "Current Value"]) }
+        static var newValueLabel: String { t([.zh: "新值（可选）", .en: "New Value (optional)"]) }
+        static var targetGroupLabel: String { t([.zh: "目标分组", .en: "Target Group"]) }
+
+        // Hosts labels
+        static var currentIpLabel: String { t([.zh: "当前 IP", .en: "Current IP"]) }
+        static var currentHostnameLabel: String { t([.zh: "当前主机名", .en: "Current Hostname"]) }
+        static var currentCommentLabel: String { t([.zh: "注释", .en: "Comment"]) }
+        static var newIpLabel: String { t([.zh: "新 IP 地址", .en: "New IP Address"]) }
+        static var newHostnameLabel: String { t([.zh: "新主机名", .en: "New Hostname"]) }
+
+        // Group selection
+        static var createNewGroup: String { t([.zh: "创建新分组", .en: "Create New Group"]) }
+        static var newGroupNamePlaceholder: String { t([.zh: "新分组名称", .en: "New group name"]) }
+        static var selectGroup: String { t([.zh: "选择分组", .en: "Select Group"]) }
+        static var selectGroupPrompt: String { t([.zh: "请选择一个分组", .en: "Please select a group"]) }
+
+        // Button
+        static var confirmButton: String { t([.zh: "确认迁移", .en: "Confirm Migration"]) }
     }
 }
