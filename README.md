@@ -1,5 +1,7 @@
 # iEnvs
 
+📖 [中文文档](README.zh-CN.md)
+
 A native macOS app for visually managing shell environment variables. Create, organize, and switch between different environment variable configurations through an intuitive GUI—no more tedious command-line operations or manual config file editing.
 
 ![Platform](https://img.shields.io/badge/platform-macOS%2013.0%2B-blue)
@@ -8,14 +10,31 @@ A native macOS app for visually managing shell environment variables. Create, or
 
 ## Features
 
+### Environment Variable Management
 - **Group Management** — Organize environment variables into groups by project or scenario
 - **One-Click Toggle** — Enable/disable groups with a switch; automatically writes to Shell config files
 - **Conflict Detection** — Automatic warnings when multiple groups contain variables with the same name
-- **Import & Export** — Support for JSON and Shell script formats
-- **Auto Backup** — Creates backups before every Shell config modification
-- **Search & Filter** — Global search across group names, variable names, and values
 - **Sensitive Data Protection** — Mark sensitive variables to hide them in the UI
+
+### Hosts File Management (New in v1.1.0)
+- **Hosts Group Management** — Create, edit, and delete hosts groups with enable/disable toggle
+- **Hosts Entry Management** — Add, edit, and delete hosts entries (IP address, hostname, comment)
+- **Conflict Detection** — Automatic detection of IP address or hostname conflicts
+- **Auto Sync** — Enabled groups automatically write to `/etc/hosts`, disabled groups auto-remove
+- **Menu Bar Integration** — Quick toggle hosts groups from the system menu bar
+
+### Existing Config Import (New in v1.1.0)
+- **Auto Detection** — Scan `~/.zshrc`, `~/.bashrc`, and `/etc/hosts` for unmanaged configurations
+- **One-Click Migration** — Import existing environment variables and hosts entries into iEnvs
+- **Direct Cleanup** — Option to directly delete unmanaged entries without importing
+- **Real-time Badge** — Toolbar shows count of detected unmanaged configurations
+
+### General Features
+- **Import & Export** — Support for JSON format backup and team sharing
+- **Auto Backup** — Creates backups before every system file modification
+- **Search & Filter** — Global search across group names, variable names, and values
 - **Dark Mode** — Automatically follows system appearance
+- **Bilingual Support** — Full Chinese and English localization
 
 ## Screenshots
 
@@ -70,8 +89,9 @@ The built app will be located at `build/Build/Products/Release/iEnvs.app`.
 
 ### Shell Configuration File
 
-iEnvs maintains a marked section in your Shell configuration file:
+iEnvs maintains marked sections in your system configuration files:
 
+**Shell Configuration** (`~/.zshrc` or `~/.bashrc`):
 ```bash
 # ========== iEnvs Managed Variables ==========
 # [iEnvs:UUID] START - Group Name
@@ -79,6 +99,16 @@ export NODE_ENV=development
 export API_KEY="your-api-key"
 # [iEnvs:UUID] END - Group Name
 # ========== End of iEnvs Managed Variables ==========
+```
+
+**Hosts File** (`/etc/hosts`):
+```
+# ========== iEnvs Managed Hosts ==========
+# [iEnvs:UUID] START - Group Name
+192.168.1.100 dev.local
+127.0.0.1 test.example.com
+# [iEnvs:UUID] END - Group Name
+# ========== End of iEnvs Managed Hosts ==========
 ```
 
 Supported Shells:
@@ -116,17 +146,25 @@ Pure native implementation, no third-party dependencies, no network requests, fu
 
 ```
 iEnvs/
-├── Models/          # Data models (EnvGroup, EnvVariable, AppSettings, etc.)
-├── ViewModels/      # View models (EnvGroupViewModel, SettingsViewModel)
-├── Views/           # SwiftUI views
-│   ├── Sidebar/     # Left sidebar group list
-│   ├── Detail/      # Right panel variable details
-│   ├── Settings/    # Settings interface
-│   ├── Dialogs/     # Dialogs
-│   └── Components/  # Reusable components
-├── Services/        # Business logic (DataStore, ShellConfigManager, BackupManager, etc.)
-├── Utils/           # Utilities (Constants, Validators, Logger)
-└── Resources/       # Resources (Assets, Info.plist, Entitlements)
+├── Models/                 # Data models (EnvGroup, EnvVariable, HostsGroup, HostsEntry, AppSettings, etc.)
+├── ViewModels/             # View models (EnvGroupViewModel, HostsGroupViewModel, SettingsViewModel)
+├── Views/                  # SwiftUI views
+│   ├── Sidebar/            # Left sidebar (Env + Hosts groups)
+│   ├── EnvDetail/          # Environment variable details
+│   ├── HostsDetail/        # Hosts entry details (New in v1.1.0)
+│   ├── Settings/           # Settings interface
+│   ├── Dialogs/            # Dialogs
+│   └── Components/         # Reusable components
+├── Services/               # Business logic
+│   ├── DataStore.swift
+│   ├── ShellConfigManager.swift
+│   ├── HostsFileManager.swift      # Hosts file I/O (New in v1.1.0)
+│   ├── BackupManager.swift
+│   ├── ConflictDetector.swift
+│   ├── HostsConflictDetector.swift # Hosts conflict detection (New in v1.1.0)
+│   └── ImportExportManager.swift
+├── Utils/                  # Utilities (Constants, Validators, HostsValidators, Logger)
+└── Resources/              # Resources (Assets, Info.plist, Entitlements)
 ```
 
 ## Data Storage
@@ -143,7 +181,3 @@ iEnvs/
 ## License
 
 Apache License 2.0
-
----
-
-📖 [中文文档](README.zh-CN.md)
