@@ -5,6 +5,8 @@ struct HostsDetailView: View {
     @EnvironmentObject var viewModel: HostsGroupViewModel
     @State private var filterText: String = ""
     @State private var showAddEntry: Bool = false
+    @State private var showEditEntry: Bool = false
+    @State private var entryToEdit: HostEntry?
     @State private var selectedEntryIDs = Set<UUID>()
 
     var filteredEntries: [HostEntry] {
@@ -44,6 +46,16 @@ struct HostsDetailView: View {
                 isPresented: $showAddEntry
             )
             .environmentObject(viewModel)
+        }
+        .sheet(isPresented: $showEditEntry) {
+            if let entry = entryToEdit {
+                EditHostEntrySheet(
+                    group: group,
+                    entry: entry,
+                    isPresented: $showEditEntry
+                )
+                .environmentObject(viewModel)
+            }
         }
     }
 
@@ -159,6 +171,11 @@ struct HostsDetailView: View {
 
     @ViewBuilder
     private func entryContextMenu(for entry: HostEntry) -> some View {
+        Button(L10n.Hosts.editEntry) {
+            entryToEdit = entry
+            showEditEntry = true
+        }
+
         Button(L10n.Detail.copyValue) {
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(entry.hostsLine, forType: .string)

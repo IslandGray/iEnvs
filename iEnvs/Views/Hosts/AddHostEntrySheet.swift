@@ -209,7 +209,7 @@ struct AddHostEntrySheet: View {
                 .scrollContentBackground(.hidden)
                 .background(Color(nsColor: .textBackgroundColor))
 
-            Text("Example:\n127.0.0.1 dev.local # Dev server\n192.168.1.100 api.local\n10.0.0.1 db.local # Database")
+            Text("格式: IP 主机名 [主机名2,...] # 注释\n示例:\n127.0.0.1 dev.local # Dev server\n192.168.1.100 api.local,api2.local\n10.0.0.1 db.local # Database")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
                 .padding(.top, 4)
@@ -240,8 +240,10 @@ struct AddHostEntrySheet: View {
                 ? commentSplit.dropFirst().joined(separator: "#").trimmingCharacters(in: .whitespaces)
                 : ""
 
-            let parts = mainPart.split(separator: " ", omittingEmptySubsequences: true)
-                .map { String($0) }
+            // 支持空格或逗号分隔
+            let parts = mainPart.components(separatedBy: CharacterSet(charactersIn: " ,\t"))
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty }
 
             guard parts.count >= 2 else {
                 errors.append(L10n.AddVariable.formatError(line))
@@ -249,20 +251,30 @@ struct AddHostEntrySheet: View {
             }
 
             let lineIP = parts[0]
-            let lineHostname = parts[1]
 
             guard HostsValidators.validateIP(lineIP) else {
                 errors.append(L10n.Hosts.ipInvalid + ": \(lineIP)")
                 continue
             }
 
-            guard HostsValidators.validateHostname(lineHostname) else {
-                errors.append(L10n.Hosts.hostnameInvalid + ": \(lineHostname)")
-                continue
+            // 支持多个主机名（逗号或空格分隔）
+            var hasValidHostname = false
+            for i in 1..<parts.count {
+                let lineHostname = parts[i]
+
+                guard HostsValidators.validateHostname(lineHostname) else {
+                    errors.append(L10n.Hosts.hostnameInvalid + ": \(lineHostname)")
+                    continue
+                }
+
+                hasValidHostname = true
+                viewModel.addHostEntry(to: group.id, ip: lineIP, hostname: lineHostname, comment: i == 1 ? lineComment : "")
+                addedCount += 1
             }
 
-            viewModel.addHostEntry(to: group.id, ip: lineIP, hostname: lineHostname, comment: lineComment)
-            addedCount += 1
+            if !hasValidHostname {
+                errors.append("无可用的主机名: \(line)")
+            }
         }
 
         if errors.isEmpty {

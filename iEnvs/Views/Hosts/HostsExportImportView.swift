@@ -167,13 +167,21 @@ struct HostsExportImportView: View {
             do {
                 let content = try String(contentsOf: url, encoding: .utf8)
                 let groupName = url.deletingPathExtension().lastPathComponent
-                let group = HostsImportExportManager.importFromHostsFormat(
+                let importResult = HostsImportExportManager.importFromHostsFormat(
                     content: content,
                     groupName: groupName
                 )
 
-                viewModel.importGroups([group])
-                resultMessage = L10n.Export.importSuccess(count: 1)
+                viewModel.importGroups([importResult.group])
+
+                // 构建结果消息
+                if importResult.errors.isEmpty {
+                    resultMessage = L10n.Export.importSuccess(count: 1)
+                } else {
+                    let successMsg = "成功导入 \(importResult.group.entries.count) 个条目"
+                    let errorMsg = importResult.errors.joined(separator: "\n")
+                    resultMessage = "\(successMsg)\n\n以下行导入失败:\n\(errorMsg)"
+                }
             } catch {
                 resultMessage = L10n.Export.importFailed(error.localizedDescription)
             }

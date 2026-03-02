@@ -129,6 +129,25 @@ final class SettingsViewModel: ObservableObject {
         saveSettings()
     }
 
+    /// 更新开机自启动设置
+    func updateLaunchAtLogin(_ enabled: Bool) {
+        settings.launchAtLogin = enabled
+        saveSettings()
+
+        do {
+            if enabled {
+                try LaunchAtLoginManager.shared.enable()
+            } else {
+                try LaunchAtLoginManager.shared.disable()
+            }
+        } catch {
+            Logger.shared.error("Failed to update launch at login: \(error.localizedDescription)")
+            // 恢复设置
+            settings.launchAtLogin = !enabled
+            saveSettings()
+        }
+    }
+
     /// 重置所有设置为默认值
     func resetToDefaults() {
         settings = AppSettings()

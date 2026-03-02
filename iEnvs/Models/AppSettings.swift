@@ -25,6 +25,7 @@ struct AppSettings: Codable, Equatable {
     var enableRegexSearch: Bool
     var exportIncludesDisabledGroups: Bool
     var language: AppLanguage
+    var launchAtLogin: Bool
 
     init(
         shellType: ShellType = .detectCurrent(),
@@ -35,7 +36,8 @@ struct AppSettings: Codable, Equatable {
         enableConflictDetection: Bool = true,
         enableRegexSearch: Bool = false,
         exportIncludesDisabledGroups: Bool = false,
-        language: AppLanguage = .zh
+        language: AppLanguage = .zh,
+        launchAtLogin: Bool = false
     ) {
         self.shellType = shellType
         self.configFilePath = configFilePath.isEmpty ? shellType.defaultConfigPath : configFilePath
@@ -46,6 +48,23 @@ struct AppSettings: Codable, Equatable {
         self.enableRegexSearch = enableRegexSearch
         self.exportIncludesDisabledGroups = exportIncludesDisabledGroups
         self.language = language
+        self.launchAtLogin = launchAtLogin
+    }
+
+    // 向后兼容：旧版本数据可能缺少某些字段
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        shellType = try container.decode(ShellType.self, forKey: .shellType)
+        configFilePath = try container.decode(String.self, forKey: .configFilePath)
+        autoBackup = try container.decodeIfPresent(Bool.self, forKey: .autoBackup) ?? true
+        maxBackupCount = try container.decodeIfPresent(Int.self, forKey: .maxBackupCount) ?? 10
+        theme = try container.decodeIfPresent(ThemeMode.self, forKey: .theme) ?? .auto
+        enableConflictDetection = try container.decodeIfPresent(Bool.self, forKey: .enableConflictDetection) ?? true
+        enableRegexSearch = try container.decodeIfPresent(Bool.self, forKey: .enableRegexSearch) ?? false
+        exportIncludesDisabledGroups = try container.decodeIfPresent(Bool.self, forKey: .exportIncludesDisabledGroups) ?? false
+        language = try container.decodeIfPresent(AppLanguage.self, forKey: .language) ?? .zh
+        launchAtLogin = try container.decodeIfPresent(Bool.self, forKey: .launchAtLogin) ?? false
     }
 }
 

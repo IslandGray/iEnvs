@@ -25,6 +25,11 @@ struct GeneralSettingsView: View {
 
                     // Export settings
                     exportSettingsSection
+
+                    Divider()
+
+                    // Launch at login
+                    launchAtLoginSection
                 }
                 .padding()
             }
@@ -111,6 +116,32 @@ struct GeneralSettingsView: View {
                         .font(.body)
 
                     Text(L10n.Settings.exportIncludeDisabledDesc)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .toggleStyle(.checkbox)
+        }
+    }
+
+    // MARK: - Launch at Login Section
+
+    private var launchAtLoginSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(L10n.Settings.launchAtLogin)
+                .font(.headline)
+
+            Toggle(isOn: Binding(
+                get: { viewModel.settings.launchAtLogin },
+                set: { newValue in
+                    viewModel.updateLaunchAtLogin(newValue)
+                }
+            )) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(L10n.Settings.enableLaunchAtLogin)
+                        .font(.body)
+
+                    Text(L10n.Settings.launchAtLoginDesc)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

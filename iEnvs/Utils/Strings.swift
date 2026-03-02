@@ -12,6 +12,7 @@ enum L10n {
         static var confirm: String { t([.zh: "确认", .en: "Confirm"]) }
         static var delete: String { t([.zh: "删除", .en: "Delete"]) }
         static var edit: String { t([.zh: "编辑", .en: "Edit"]) }
+        static var save: String { t([.zh: "保存", .en: "Save"]) }
         static var close: String { t([.zh: "关闭", .en: "Close"]) }
         static var ok: String { t([.zh: "确定", .en: "OK"]) }
         static var refresh: String { t([.zh: "刷新", .en: "Refresh"]) }
@@ -136,6 +137,11 @@ enum L10n {
         static var exportSettings: String { t([.zh: "导出设置", .en: "Export Settings"]) }
         static var exportIncludeDisabled: String { t([.zh: "导出时包含禁用的分组", .en: "Include disabled groups when exporting"]) }
         static var exportIncludeDisabledDesc: String { t([.zh: "导出 JSON 时是否包含未启用的分组", .en: "Whether to include disabled groups when exporting JSON"]) }
+
+        // Launch at Login
+        static var launchAtLogin: String { t([.zh: "开机自启动", .en: "Launch at Login"]) }
+        static var enableLaunchAtLogin: String { t([.zh: "开机时自动启动", .en: "Start automatically on login"]) }
+        static var launchAtLoginDesc: String { t([.zh: "系统登录时自动启动 iEnvs", .en: "Automatically start iEnvs when you log in"]) }
 
         // Shell
         static var detectedShell: String { t([.zh: "当前检测到的 Shell", .en: "Detected Shell"]) }
@@ -336,6 +342,8 @@ enum L10n {
 
         // Add Entry
         static var addEntryTitle: String { t([.zh: "添加 Hosts 条目", .en: "Add Hosts Entry"]) }
+        static var editEntryTitle: String { t([.zh: "编辑 Hosts 条目", .en: "Edit Hosts Entry"]) }
+        static var editEntry: String { t([.zh: "编辑条目", .en: "Edit Entry"]) }
         static var ipAddress: String { t([.zh: "IP 地址", .en: "IP Address"]) }
         static var ipPlaceholder: String { t([.zh: "例如：127.0.0.1", .en: "e.g. 127.0.0.1"]) }
         static var hostname: String { t([.zh: "主机名", .en: "Hostname"]) }

@@ -81,12 +81,22 @@ final class HostsImportExportManager {
         return lines.joined(separator: "\n")
     }
 
+    /// Hosts 导入结果
+    struct HostsImportResult {
+        let group: HostGroup
+        let errors: [String]
+        let successCount: Int
+    }
+
     /// 从标准 hosts 格式文件导入
-    static func importFromHostsFormat(content: String, groupName: String) -> HostGroup {
+    static func importFromHostsFormat(content: String, groupName: String) -> HostsImportResult {
         let lines = content.components(separatedBy: .newlines)
         var entries: [HostEntry] = []
+        var errors: [String] = []
+        var successCount = 0
 
-        for line in lines {
+        for (lineIndex, line) in lines.enumerated() {
+            let lineNumber = lineIndex + 1
             let trimmed = line.trimmingCharacters(in: .whitespaces)
 
             // 跳过空行和注释行
@@ -99,16 +109,36 @@ final class HostsImportExportManager {
                 ? commentSplit.dropFirst().joined(separator: "#").trimmingCharacters(in: .whitespaces)
                 : ""
 
-            // 分离 IP 和 hostname
-            let parts = mainPart.split(separator: " ", omittingEmptySubsequences: true)
-                .map { String($0).trimmingCharacters(in: .whitespaces) }
+            // 分离 IP 和 hostname（支持空格或逗号分隔）
+            let parts = mainPart.components(separatedBy: CharacterSet(charactersIn: " ,\t"))
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty }
 
-            guard parts.count >= 2 else { continue }
+            guard parts.count >= 2 else {
+                errors.append("第 \(lineNumber) 行格式错误: \(trimmed)")
+                continue
+            }
 
             let ip = parts[0]
+
+            // 验证 IP 地址
+            guard HostsValidators.validateIP(ip) else {
+                errors.append("第 \(lineNumber) 行 IP 格式无效: \(ip)")
+                continue
+            }
+
             // 一个 IP 可能对应多个 hostname
+            var hasValidHostname = false
             for i in 1..<parts.count {
                 let hostname = parts[i]
+
+                // 验证主机名
+                guard HostsValidators.validateHostname(hostname) else {
+                    errors.append("第 \(lineNumber) 行主机名格式无效: \(hostname)")
+                    continue
+                }
+
+                hasValidHostname = true
                 entries.append(HostEntry(
                     ip: ip,
                     hostname: hostname,
@@ -116,11 +146,21 @@ final class HostsImportExportManager {
                     isEnabled: true
                 ))
             }
+
+            if hasValidHostname {
+                successCount += 1
+            }
         }
 
-        return HostGroup(
+        let group = HostGroup(
             name: groupName,
             entries: entries
+        )
+
+        return HostsImportResult(
+            group: group,
+            errors: errors,
+            successCount: successCount
         )
     }
 }

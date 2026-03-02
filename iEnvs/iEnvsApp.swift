@@ -17,6 +17,9 @@ struct iEnvsApp: App {
                     let settings = DataStore.shared.load().settings
                     NSApp.appearance = settings.theme.nsAppearance
 
+                    // 同步开机自启动设置
+                    LaunchAtLoginManager.shared.syncWithSettings(settings.launchAtLogin)
+
                     appDelegate.setupStatusBar(viewModel: viewModel, hostsViewModel: hostsViewModel)
                     // Capture and configure main window
                     DispatchQueue.main.async {

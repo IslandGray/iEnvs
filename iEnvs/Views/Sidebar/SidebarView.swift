@@ -5,6 +5,8 @@ struct SidebarView: View {
     @Binding var selectedGroupID: UUID?
     @State private var showAddGroupSheet = false
     @State private var showDeleteConfirmation = false
+    @State private var showRenameSheet = false
+    @State private var groupToRename: EnvGroup?
 
     var filteredGroups: [EnvGroup] {
         if viewModel.searchText.isEmpty {
@@ -28,7 +30,8 @@ struct SidebarView: View {
                     .tag(group.id)
                     .contextMenu {
                         Button(L10n.General.rename) {
-                            // TODO: Implement rename
+                            groupToRename = group
+                            showRenameSheet = true
                         }
 
                         Button(L10n.General.duplicate) {
@@ -71,6 +74,11 @@ struct SidebarView: View {
         }
         .sheet(isPresented: $showAddGroupSheet) {
             AddGroupSheet()
+        }
+        .sheet(isPresented: $showRenameSheet) {
+            if let group = groupToRename {
+                RenameGroupSheet(group: group)
+            }
         }
         .alert(L10n.Sidebar.confirmDelete, isPresented: $showDeleteConfirmation) {
             Button(L10n.General.cancel, role: .cancel) { }
