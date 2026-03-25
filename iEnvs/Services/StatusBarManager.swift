@@ -74,6 +74,15 @@ final class StatusBarManager: NSObject {
         menu.addItem(headerItem)
         menu.addItem(NSMenuItem.separator())
 
+        // Env Groups Header
+        let envGroupsHeaderItem = NSMenuItem(title: L10n.StatusBar.envGroupsSection, action: nil, keyEquivalent: "")
+        envGroupsHeaderItem.attributedTitle = NSAttributedString(
+            string: L10n.StatusBar.envGroupsSection,
+            attributes: [.font: NSFont.boldSystemFont(ofSize: 11)]
+        )
+        envGroupsHeaderItem.isEnabled = false
+        menu.addItem(envGroupsHeaderItem)
+
         // Groups
         if viewModel.groups.isEmpty {
             let emptyItem = NSMenuItem(title: L10n.StatusBar.noGroups, action: nil, keyEquivalent: "")
@@ -132,19 +141,32 @@ final class StatusBarManager: NSObject {
 
         menu.addItem(NSMenuItem.separator())
 
-        // Sync action
-        let syncItem = NSMenuItem(
+        // Sync Shell action
+        let syncShellItem = NSMenuItem(
             title: L10n.StatusBar.syncToShell,
             action: #selector(syncShellConfig),
             keyEquivalent: "s"
         )
-        syncItem.keyEquivalentModifierMask = [.command, .shift]
-        syncItem.target = self
-        if let syncImage = NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil) {
+        syncShellItem.keyEquivalentModifierMask = [.command, .shift]
+        syncShellItem.target = self
+        if let syncImage = NSImage(systemSymbolName: "terminal", accessibilityDescription: nil) {
             syncImage.isTemplate = true
-            syncItem.image = syncImage
+            syncShellItem.image = syncImage
         }
-        menu.addItem(syncItem)
+        menu.addItem(syncShellItem)
+
+        // Sync Hosts action
+        let syncHostsItem = NSMenuItem(
+            title: L10n.StatusBar.syncHostsToFile,
+            action: #selector(syncHostsFile),
+            keyEquivalent: ""
+        )
+        syncHostsItem.target = self
+        if let hostsImage = NSImage(systemSymbolName: "network", accessibilityDescription: nil) {
+            hostsImage.isTemplate = true
+            syncHostsItem.image = hostsImage
+        }
+        menu.addItem(syncHostsItem)
 
         // Open main window
         let openItem = NSMenuItem(
@@ -204,8 +226,12 @@ final class StatusBarManager: NSObject {
     }
 
     @objc private func syncShellConfig() {
-        // Trigger a save which syncs shell config
+        // Sync shell config only
         viewModel.saveData()
+    }
+
+    @objc private func syncHostsFile() {
+        // Sync hosts file only
         hostsViewModel.syncHostsFile()
     }
 

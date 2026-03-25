@@ -6,6 +6,7 @@ struct DetailView: View {
     @State private var filterText: String = ""
     @State private var showAddVariable: Bool = false
     @State private var selectedVariableIDs = Set<UUID>()
+    @State private var editingVariableItem: EnvVariable? = nil
 
     var filteredVariables: [EnvVariable] {
         if filterText.isEmpty {
@@ -41,6 +42,17 @@ struct DetailView: View {
             AddVariableSheet(
                 group: group,
                 isPresented: $showAddVariable
+            )
+            .environmentObject(viewModel)
+        }
+        .sheet(item: $editingVariableItem) { variable in
+            EditVariableSheet(
+                variable: variable,
+                group: group,
+                isPresented: Binding(
+                    get: { editingVariableItem != nil },
+                    set: { if !$0 { editingVariableItem = nil } }
+                )
             )
             .environmentObject(viewModel)
         }
@@ -140,7 +152,7 @@ struct DetailView: View {
     @ViewBuilder
     private func variableContextMenu(for variable: EnvVariable) -> some View {
         Button(L10n.General.edit) {
-            // TODO: Show edit sheet
+            editingVariableItem = variable
         }
 
         Button(L10n.Detail.copyValue) {
