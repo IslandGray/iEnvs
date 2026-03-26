@@ -38,11 +38,8 @@ final class HostsFileManager {
         // 3. 替换管理区域
         let newContent = replaceManagedSection(in: originalContent, with: managedSection)
 
-        // 4. 使用管理员权限写入
-        try writeWithPrivilege(content: newContent, to: hostsPath)
-
-        // 5. 刷新 DNS 缓存
-        try flushDNSCache()
+        // 4. 使用管理员权限写入并刷新 DNS（合并为一次弹窗）
+        try writeWithPrivilegeAndFlushDNS(content: newContent, to: hostsPath)
     }
 
     /// 刷新 DNS 缓存
@@ -108,12 +105,9 @@ final class HostsFileManager {
         // 删除指定行
         lines.remove(at: lineNumber - 1)
 
-        // 写回文件
+        // 写回文件并刷新DNS（合并为一次弹窗）
         let newContent = lines.joined(separator: "\n")
-        try writeWithPrivilege(content: newContent, to: hostsPath)
-
-        // 刷新DNS缓存
-        try flushDNSCache()
+        try writeWithPrivilegeAndFlushDNS(content: newContent, to: hostsPath)
     }
 
     /// 检查 hosts 文件是否可读
@@ -203,6 +197,24 @@ final class HostsFileManager {
 
         let script = """
         do shell script "cp '\(escapedTempFile)' '\(escapedPath)' && rm -f '\(escapedTempFile)'" with administrator privileges
+        """
+        try executeAppleScript(script)
+
+        // 清理临时文件（如果 AppleScript 失败，临时文件可能还在）
+        try? fileManager.removeItem(atPath: tempFile)
+    }
+
+    /// 使用管理员权限写入文件并刷新 DNS（合并为一次弹窗）
+    private func writeWithPrivilegeAndFlushDNS(content: String, to path: String) throws {
+        let tempFile = NSTemporaryDirectory() + "ienvs_hosts_\(UUID().uuidString)"
+        try content.write(toFile: tempFile, atomically: true, encoding: .utf8)
+
+        let escapedTempFile = tempFile.replacingOccurrences(of: "\"", with: "\\\"")
+        let escapedPath = path.replacingOccurrences(of: "\"", with: "\\\"")
+
+        // 合并写入 hosts 文件和刷新 DNS 为一次管理员操作
+        let script = """
+        do shell script "cp '\(escapedTempFile)' '\(escapedPath)' && rm -f '\(escapedTempFile)' && dscacheutil -flushcache && killall -HUP mDNSResponder" with administrator privileges
         """
         try executeAppleScript(script)
 

@@ -42,6 +42,7 @@
 		8722D28F9BFFAEA03DAEB167 /* HostsValidators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85FF3647162D4650BDE1DE8 /* HostsValidators.swift */; };
 		87A0431D18C3B387DF4924BF /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3463F1922B7DA47093DB4710 /* BackupSettingsView.swift */; };
 		8971AC247CE5F28130F253CE /* VariableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4B326BE844F874226858 /* VariableRowView.swift */; };
+		8C7483217E0CD17C0B3D67DE /* EditVariableSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0C298BEFF838D30CADEEB1 /* EditVariableSheet.swift */; };
 		94F838A143C838E5B2C87FAF /* HostEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CA2FA681C35772F9DE46A /* HostEntry.swift */; };
 		9C948EF598FBE6EDB8E33DEF /* EditHostEntrySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E1D29AAAB401681233AD64 /* EditHostEntrySheet.swift */; };
 		9C969838D5D24DBD34EDAEF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72DA771F2F657C0550630757 /* Assets.xcassets */; };
@@ -126,6 +127,7 @@
 		F0B3E399F2733CD27A0886A7 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		F37D6F5B3F992B966952C879 /* HostsGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsGroupViewModel.swift; sourceTree = "<group>"; };
 		F4A527593E5097505E8FF8E7 /* HostsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostsDetailView.swift; sourceTree = "<group>"; };
+		FC0C298BEFF838D30CADEEB1 /* EditVariableSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVariableSheet.swift; sourceTree = "<group>"; };
 		FF0EE241736CE73EA0ACD5C3 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -302,6 +304,7 @@
 			children = (
 				5069B51493B449D885B24BEA /* AddVariableSheet.swift */,
 				57BF28A253603AA1C004A5F0 /* DetailView.swift */,
+				FC0C298BEFF838D30CADEEB1 /* EditVariableSheet.swift */,
 				BA39F405DBD2468743EDCDA9 /* EmptyStateView.swift */,
 				9F9E4B326BE844F874226858 /* VariableRowView.swift */,
 			);
@@ -352,7 +355,6 @@
 				};
 			};
 			buildConfigurationList = 14BAD72E712AAF1A199D8234 /* Build configuration list for PBXProject "iEnvs" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -362,6 +364,7 @@
 			mainGroup = B35866A927A116383B0E7E57;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 1EE7B46105B95A2F51BC8BA3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -399,6 +402,7 @@
 				739B2AAD1B40E52BFA1422C8 /* DataStore.swift in Sources */,
 				A67A79C07D019C3329FC3558 /* DetailView.swift in Sources */,
 				9C948EF598FBE6EDB8E33DEF /* EditHostEntrySheet.swift in Sources */,
+				8C7483217E0CD17C0B3D67DE /* EditVariableSheet.swift in Sources */,
 				191297CBA5A1F0485C92B026 /* EmptyStateView.swift in Sources */,
 				CFB3A5C3BA5F40D25ACFC188 /* EnvGroup.swift in Sources */,
 				ECF5CCAEA64247E12C1571ED /* EnvGroupViewModel.swift in Sources */,
@@ -484,7 +488,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2503011150;
+				CURRENT_PROJECT_VERSION = 2503011151;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -503,7 +507,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -585,7 +589,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2503011150;
+				CURRENT_PROJECT_VERSION = 2503011151;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -598,7 +602,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = iEnvs;

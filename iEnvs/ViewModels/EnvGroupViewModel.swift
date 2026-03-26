@@ -199,6 +199,7 @@ final class EnvGroupViewModel: ObservableObject {
         groups[index].isEnabled.toggle()
         groups[index].updatedAt = Date()
 
+        // 无论启用还是关闭，都需要同步到shell
         saveData()
 
         notificationMessage = L10n.Notification.groupToggled(enabled: groups[index].isEnabled, name: groups[index].name)
@@ -326,6 +327,9 @@ final class EnvGroupViewModel: ObservableObject {
                 groups: groups,
                 shellType: settings.shellType
             )
+            // 同步成功后显示通知
+            notificationMessage = L10n.Notification.shellSyncSuccess(settings.configFilePath)
+            showNotification = true
         } catch {
             notificationMessage = L10n.Notification.shellSyncFailed(error.localizedDescription)
             showNotification = true

@@ -108,6 +108,13 @@ enum L10n {
         }
     }
 
+    // MARK: - Edit Variable
+
+    enum EditVariable {
+        static var title: String { t([.zh: "编辑环境变量", .en: "Edit Environment Variable"]) }
+        static var saveButton: String { t([.zh: "保存", .en: "Save"]) }
+    }
+
     // MARK: - Settings
 
     enum Settings {
@@ -231,10 +238,12 @@ enum L10n {
     enum StatusBar {
         static var tooltip: String { t([.zh: "iEnvs - 环境变量管理", .en: "iEnvs - Environment Variable Manager"]) }
         static var noGroups: String { t([.zh: "暂无分组", .en: "No groups"]) }
+        static var envGroupsSection: String { t([.zh: "环境变量分组", .en: "Env Variable Groups"]) }
         static func groupInfo(_ name: String, _ count: Int) -> String {
             t([.zh: "\(name) (\(count)个变量)", .en: "\(name) (\(count) vars)"])
         }
-        static var syncToShell: String { t([.zh: "同步到 Shell 配置", .en: "Sync to Shell Config"]) }
+        static var syncToShell: String { t([.zh: "同步环境变量到Shell", .en: "Sync Env Vars to Shell"]) }
+        static var syncHostsToFile: String { t([.zh: "同步 Hosts 到文件", .en: "Sync Hosts to File"]) }
         static var openMainWindow: String { t([.zh: "打开主窗口", .en: "Open Main Window"]) }
         static var preferences: String { t([.zh: "偏好设置...", .en: "Preferences..."]) }
         static var quit: String { t([.zh: "退出 iEnvs", .en: "Quit iEnvs"]) }
@@ -272,6 +281,9 @@ enum L10n {
         }
         static func shellSyncFailed(_ error: String) -> String {
             t([.zh: "同步 Shell 配置失败：\(error)", .en: "Failed to sync shell config: \(error)"])
+        }
+        static func shellSyncSuccess(_ path: String) -> String {
+            t([.zh: "已同步 Shell 配置到：\(path)", .en: "Shell config synced to: \(path)"])
         }
         static func sourceReminder(_ path: String) -> String {
             t([.zh: "配置已更新，请运行以下命令使其生效：\nsource \(path)",
