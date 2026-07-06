@@ -83,6 +83,8 @@ enum L10n {
         static var variableValuePlaceholder: String { t([.zh: "例如: production", .en: "e.g. production"]) }
         static var sensitiveInfo: String { t([.zh: "敏感信息", .en: "Sensitive"]) }
         static var sensitiveHelp: String { t([.zh: "敏感信息将在列表中隐藏显示", .en: "Sensitive values will be hidden in the list"]) }
+        static var shellReference: String { t([.zh: "包含变量引用", .en: "Contains variable references"]) }
+        static var shellReferenceHelp: String { t([.zh: "值中的 $VAR 将被 Shell 展开为实际值（如 $HOME、$PATH）", .en: "Shell will expand $VAR in the value (e.g. $HOME, $PATH)"]) }
         static var nameValid: String { t([.zh: "变量名有效", .en: "Valid variable name"]) }
         static var nameExists: String { t([.zh: "该变量名已存在", .en: "This variable name already exists"]) }
         static var nameInvalid: String { t([.zh: "只能包含字母、数字和下划线，且必须以字母或下划线开头", .en: "Must contain only letters, digits and underscores, starting with a letter or underscore"]) }

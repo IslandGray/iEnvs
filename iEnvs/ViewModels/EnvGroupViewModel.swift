@@ -237,13 +237,14 @@ final class EnvGroupViewModel: ObservableObject {
     }
 
     // MARK: - Variable Operations
-    func addVariable(to groupId: UUID, key: String, value: String) {
+    func addVariable(to groupId: UUID, key: String, value: String, isLiteral: Bool = true) {
         guard let index = groups.firstIndex(where: { $0.id == groupId }) else { return }
 
         let newVariable = EnvVariable(
             key: key,
             value: value,
             isSensitive: false,
+            isLiteral: isLiteral,
             createdAt: Date(),
             updatedAt: Date()
         )
@@ -273,7 +274,7 @@ final class EnvGroupViewModel: ObservableObject {
         showNotification = true
     }
 
-    func updateVariable(in groupId: UUID, variableId: UUID, key: String, value: String) {
+    func updateVariable(in groupId: UUID, variableId: UUID, key: String, value: String, isLiteral: Bool) {
         guard let groupIndex = groups.firstIndex(where: { $0.id == groupId }),
               let varIndex = groups[groupIndex].variables.firstIndex(where: { $0.id == variableId }) else {
             return
@@ -281,6 +282,7 @@ final class EnvGroupViewModel: ObservableObject {
 
         groups[groupIndex].variables[varIndex].key = key
         groups[groupIndex].variables[varIndex].value = value
+        groups[groupIndex].variables[varIndex].isLiteral = isLiteral
         groups[groupIndex].variables[varIndex].updatedAt = Date()
         groups[groupIndex].updatedAt = Date()
 
