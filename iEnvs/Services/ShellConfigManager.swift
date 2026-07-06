@@ -240,7 +240,7 @@ final class ShellConfigManager {
             lines.append(Marker.groupStart(id: group.id, name: group.name))
 
             for variable in group.variables {
-                let exportLine = generateExportLine(key: variable.key, value: variable.value)
+                let exportLine = generateExportLine(key: variable.key, value: variable.value, isLiteral: variable.isLiteral)
                 lines.append(exportLine)
             }
 
@@ -255,13 +255,19 @@ final class ShellConfigManager {
     }
 
     /// 生成 export 语句
-    private func generateExportLine(key: String, value: String) -> String {
-        // 转义值中的特殊字符
-        let escapedValue = value
-            .replacingOccurrences(of: "\\", with: "\\\\")
-            .replacingOccurrences(of: "\"", with: "\\\"")
-            .replacingOccurrences(of: "$", with: "\\$")
-            .replacingOccurrences(of: "`", with: "\\`")
+    private func generateExportLine(key: String, value: String, isLiteral: Bool) -> String {
+        let escapedValue: String
+        if isLiteral {
+            escapedValue = value
+                .replacingOccurrences(of: "\\", with: "\\\\")
+                .replacingOccurrences(of: "\"", with: "\\\"")
+                .replacingOccurrences(of: "$", with: "\\$")
+                .replacingOccurrences(of: "`", with: "\\`")
+        } else {
+            escapedValue = value
+                .replacingOccurrences(of: "\\", with: "\\\\")
+                .replacingOccurrences(of: "\"", with: "\\\"")
+        }
 
         return "export \(key)=\"\(escapedValue)\""
     }

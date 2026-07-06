@@ -8,6 +8,7 @@ struct AddVariableSheet: View {
     @State private var key: String = ""
     @State private var value: String = ""
     @State private var isSensitive: Bool = false
+    @State private var containsShellRef: Bool = false
     @State private var showBatchInput: Bool = false
     @State private var batchText: String = ""
     @State private var errorMessage: String?
@@ -158,18 +159,32 @@ struct AddVariableSheet: View {
                     .font(.system(.body, design: .monospaced))
             }
 
-            // Sensitive toggle
-            Toggle(isOn: $isSensitive) {
-                HStack(spacing: 6) {
-                    Text(L10n.AddVariable.sensitiveInfo)
-                        .font(.headline)
+            // Options
+            HStack(spacing: 20) {
+                Toggle(isOn: $isSensitive) {
+                    HStack(spacing: 6) {
+                        Text(L10n.AddVariable.sensitiveInfo)
+                            .font(.headline)
 
-                    Image(systemName: "info.circle")
-                        .foregroundStyle(.secondary)
-                        .help(L10n.AddVariable.sensitiveHelp)
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(.secondary)
+                            .help(L10n.AddVariable.sensitiveHelp)
+                    }
                 }
+                .toggleStyle(.checkbox)
+
+                Toggle(isOn: $containsShellRef) {
+                    HStack(spacing: 6) {
+                        Text(L10n.AddVariable.shellReference)
+                            .font(.headline)
+
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(.secondary)
+                            .help(L10n.AddVariable.shellReferenceHelp)
+                    }
+                }
+                .toggleStyle(.checkbox)
             }
-            .toggleStyle(.checkbox)
         }
     }
 
@@ -218,7 +233,7 @@ struct AddVariableSheet: View {
     private func saveVariable() {
         guard canSave else { return }
 
-        viewModel.addVariable(to: group.id, key: key, value: value)
+        viewModel.addVariable(to: group.id, key: key, value: value, isLiteral: !containsShellRef)
         // If marked as sensitive, toggle it after adding
         if isSensitive, let addedGroup = viewModel.groups.first(where: { $0.id == group.id }),
            let addedVar = addedGroup.variables.last(where: { $0.key == key }) {

@@ -206,7 +206,8 @@ struct VariableRowView: View {
             in: groupId,
             variableId: variable.id,
             key: editKey,
-            value: editValue
+            value: editValue,
+            isLiteral: variable.isLiteral
         )
 
         isEditing = false

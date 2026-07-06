@@ -9,6 +9,7 @@ struct EditVariableSheet: View {
     @State private var key: String = ""
     @State private var value: String = ""
     @State private var isSensitive: Bool = false
+    @State private var containsShellRef: Bool = false
     @State private var errorMessage: String?
 
     private var isKeyValid: Bool {
@@ -97,18 +98,32 @@ struct EditVariableSheet: View {
                             .font(.system(.body, design: .monospaced))
                     }
 
-                    // Sensitive toggle
-                    Toggle(isOn: $isSensitive) {
-                        HStack(spacing: 6) {
-                            Text(L10n.AddVariable.sensitiveInfo)
-                                .font(.headline)
+                    // Options
+                    HStack(spacing: 20) {
+                        Toggle(isOn: $isSensitive) {
+                            HStack(spacing: 6) {
+                                Text(L10n.AddVariable.sensitiveInfo)
+                                    .font(.headline)
 
-                            Image(systemName: "info.circle")
-                                .foregroundStyle(.secondary)
-                                .help(L10n.AddVariable.sensitiveHelp)
+                                Image(systemName: "info.circle")
+                                    .foregroundStyle(.secondary)
+                                    .help(L10n.AddVariable.sensitiveHelp)
+                            }
                         }
+                        .toggleStyle(.checkbox)
+
+                        Toggle(isOn: $containsShellRef) {
+                            HStack(spacing: 6) {
+                                Text(L10n.AddVariable.shellReference)
+                                    .font(.headline)
+
+                                Image(systemName: "info.circle")
+                                    .foregroundStyle(.secondary)
+                                    .help(L10n.AddVariable.shellReferenceHelp)
+                            }
+                        }
+                        .toggleStyle(.checkbox)
                     }
-                    .toggleStyle(.checkbox)
 
                     // Error message
                     if let error = errorMessage {
@@ -152,6 +167,7 @@ struct EditVariableSheet: View {
             key = variable.key
             value = variable.value
             isSensitive = variable.isSensitive
+            containsShellRef = !variable.isLiteral
         }
     }
 
@@ -179,7 +195,8 @@ struct EditVariableSheet: View {
             in: group.id,
             variableId: variable.id,
             key: key,
-            value: value
+            value: value,
+            isLiteral: !containsShellRef
         )
 
         // If sensitivity changed, toggle it
